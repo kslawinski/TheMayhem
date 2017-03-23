@@ -10,6 +10,14 @@ class THEMAYHEM_API APlayerCharacter : public APawn
 {
 	GENERATED_BODY()
 
+private:
+	FVector currentVelocity;
+	float speed;
+	float sideSpeed;
+	float currentDeltaTime;
+
+	FRotator rotation;
+
 public:
 	// Sets default values for this pawn's properties
 	APlayerCharacter();
@@ -25,6 +33,10 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void MoveForward(float value);
+
+	void MoveRight(float value);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 	UStaticMeshComponent* characterMesh;
