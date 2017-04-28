@@ -24,6 +24,7 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//speed = 100.0f;
 }
 
 // Called every frame
@@ -31,32 +32,21 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	UE_LOG(LogTemp, Warning, TEXT("Direction is: %s"), *direction.ToString());
+
 	currentDeltaTime = DeltaTime;
 
-	currentVelocity = FVector(0.0, 0.0, 0.0);
-	if (!speed == 0)
-	{
-		
-		currentVelocity = GetActorForwardVector();
-		currentVelocity *= speed;
-
-	}
-		
-
-
-		if (!sideSpeed == 0)
-		{
-			currentVelocity = GetActorRightVector();
-			currentVelocity *= sideSpeed;
-		}
-
-
+	currentVelocity = direction * speed;
 
 	// Apply friction
-	float scale = 1.0f - (DeltaTime * 0.8f);
+	float scale = 1.0f - (DeltaTime * 0.9f);
 	speed *= scale;
 
 	FVector NewLocation = GetActorLocation();
+	
+	
+	FRotator CurrentRotation = GetActorRotation();
+	FRotator NewRotation = FRotator(0.0f, 1.0f, 0.0f);
 
 	if (!currentVelocity.IsZero())
 	{
@@ -65,7 +55,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 			SetActorLocation(NewLocation);
 	}
-
+	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
 }
 
 // Called to bind functionality to input
@@ -75,24 +65,35 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("RotateRight", this, &APlayerCharacter::RotateRight);
 }
 
 void APlayerCharacter::MoveForward(float value)
 {
-	// Accelerate and decelerate the player
-	speed += FMath::Clamp(value, -1.0f, 1.0f) * 100.0f * currentDeltaTime;
-	speed = FMath::Clamp(speed, -100.0f, 200.0f);
-
-
-
-	UE_LOG(LogTemp, Warning, TEXT("velocity is : %s speed is : %f"), *currentVelocity.ToString(),speed);
+	if (value == 1.0f || value == -1.0f)
+	{
+		direction = GetActorForwardVector() * value;
+		speed = 100.0f;
+	}
 }
 
 void APlayerCharacter::MoveRight(float value)
 {
-	sideSpeed += FMath::Clamp(value, -1.0f, 1.0f) * 100.0f * currentDeltaTime;
-	sideSpeed = FMath::Clamp(sideSpeed, -70.0f, 70.0f);
-
-
+	if (value == 1.0f || value == -1.0f)
+	{
+		direction = GetActorRightVector() * value;
+		speed = 100.0f;
+	}
 }
 
+void APlayerCharacter::RotateRight(float value)
+{
+	if (value == 1.0f || value == -1.0f)
+	{
+		rotationSpeed = value * 100.0f;
+	}
+	else
+	{
+		rotationSpeed = 0;
+	}
+}

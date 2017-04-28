@@ -12,11 +12,13 @@ class THEMAYHEM_API APlayerCharacter : public APawn
 
 private:
 	FVector currentVelocity;
+	FVector direction;
 	float speed;
-	float sideSpeed;
+	float rotationSpeed;
 	float currentDeltaTime;
 
 	FRotator rotation;
+
 
 public:
 	// Sets default values for this pawn's properties
@@ -37,6 +39,8 @@ public:
 	void MoveForward(float value);
 
 	void MoveRight(float value);
+
+	void RotateRight(float value);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 	UStaticMeshComponent* characterMesh;
