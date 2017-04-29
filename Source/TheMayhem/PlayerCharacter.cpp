@@ -4,6 +4,7 @@
 #include "PlayerCharacter.h"
 
 
+
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
@@ -17,13 +18,26 @@ APlayerCharacter::APlayerCharacter()
 	characterMesh->SetupAttachment(RootComponent);
 	characterCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Character Camera"));
 	characterCamera->SetupAttachment(characterMesh); 
+
 }
 
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	for (TObjectIterator<APickup> act; act; ++act)
+	{
+			APickup* pickup = *act;
+			pickups.Add(*act);
+			UE_LOG(LogTemp, Warning, TEXT("Found %s"), *pickup->GetName())
+	}
+
+	if (true)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("Found %s"), *pickup->GetName())
+	}
+
 	//speed = 100.0f;
 }
 
@@ -32,7 +46,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UE_LOG(LogTemp, Warning, TEXT("Direction is: %s"), *direction.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Direction is: %s"), *direction.ToString());
 
 	currentDeltaTime = DeltaTime;
 

@@ -19,7 +19,7 @@ APickup::APickup()
 void APickup::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	//this->Tags.Add(FName("Pickup"));
 }
 
 // Called every frame

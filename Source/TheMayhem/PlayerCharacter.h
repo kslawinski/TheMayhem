@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "Pickup.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerCharacter.generated.h"
 
@@ -18,6 +18,7 @@ private:
 	float currentDeltaTime;
 
 	FRotator rotation;
+
 
 
 public:
@@ -47,5 +48,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* characterCamera;
-	
+
+		
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	TArray <APickup*> pickups;
 };
