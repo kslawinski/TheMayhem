@@ -111,3 +111,22 @@ void APlayerCharacter::RotateRight(float value)
 		rotationSpeed = 0;
 	}
 }
+
+AActor* APlayerCharacter::FindClosestActor(TArray<AActor*> actors)
+{
+	AActor* closestActor = nullptr;
+	float closestDistanceSqr = (float)1e10;	// Very big number!
+
+	for (int32 i = 0; i < actors.Num(); i++)
+	{
+		FVector distanceToTarget = (closestActor[i].GetActorLocation() - this->GetActorLocation());
+
+		if (distanceToTarget.SizeSquared() < closestDistanceSqr)
+		{
+			closestDistanceSqr = distanceToTarget.SizeSquared();
+			closestActor = &closestActor[i];
+		}
+	}
+
+	return closestActor;
+}

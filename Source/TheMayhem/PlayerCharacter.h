@@ -43,6 +43,8 @@ public:
 
 	void RotateRight(float value);
 
+	AActor* FindClosestActor(TArray <AActor*> actors);
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 	UStaticMeshComponent* characterMesh;
 
