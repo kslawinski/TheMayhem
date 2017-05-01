@@ -29,9 +29,11 @@ void APlayerCharacter::BeginPlay()
 	for (TObjectIterator<APickup> act; act; ++act)
 	{
 			APickup* pickup = *act;
-			pickups.Add(*act);
+			sceneActors.Add(*act);
 			UE_LOG(LogTemp, Warning, TEXT("Found %s"), *pickup->GetName())
 	}
+
+
 
 	if (true)
 	{
@@ -70,6 +72,12 @@ void APlayerCharacter::Tick(float DeltaTime)
 			SetActorLocation(NewLocation);
 	}
 	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
+
+	if (sceneActors[0] != nullptr)
+	{
+		closestActor = FindClosestActor(sceneActors);
+	}
+
 }
 
 // Called to bind functionality to input
@@ -112,19 +120,19 @@ void APlayerCharacter::RotateRight(float value)
 	}
 }
 
-AActor* APlayerCharacter::FindClosestActor(TArray<AActor*> actors)
+APickup* APlayerCharacter::FindClosestActor(TArray<APickup*> actors)
 {
-	AActor* closestActor = nullptr;
+	APickup* closestActor = nullptr;
 	float closestDistanceSqr = (float)1e10;	// Very big number!
 
 	for (int32 i = 0; i < actors.Num(); i++)
 	{
-		FVector distanceToTarget = (closestActor[i].GetActorLocation() - this->GetActorLocation());
+		FVector distanceToTarget = (actors[i]->GetActorLocation() - this->GetActorLocation());
 
 		if (distanceToTarget.SizeSquared() < closestDistanceSqr)
 		{
 			closestDistanceSqr = distanceToTarget.SizeSquared();
-			closestActor = &closestActor[i];
+			closestActor = actors[i];
 		}
 	}
 
