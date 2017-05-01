@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "CustomObject.h"
 #include "GameFramework/Actor.h"
 #include "Pickup.generated.h"
 
 UCLASS()
-class THEMAYHEM_API APickup : public AActor
+class THEMAYHEM_API APickup : public ACustomObject
 {
 	GENERATED_BODY()
 	
@@ -26,7 +26,7 @@ public:
 		UStaticMeshComponent* pickupMesh;
 
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Setup")
-		float rotationSpeed;
+		float rotationSpeed = 100.0f;
 private:
 
 	

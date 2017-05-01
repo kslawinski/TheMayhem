@@ -11,6 +11,8 @@ ACustomObject::ACustomObject()
 	PrimaryActorTick.bCanEverTick = true;
 
 	collisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh collision volume"), false);
+
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	collisionMesh->SetupAttachment(RootComponent);
 
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Engine/EngineMeshes/Cube.Cube'")); // load a mesh from a file
@@ -22,7 +24,7 @@ ACustomObject::ACustomObject()
 	collisionMesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
 	collisionMesh->CastShadow = false;
 	
-	SetActorHiddenInGame(true);
+	//SetActorHiddenInGame(true);
 }
 
 // Called when the game starts or when spawned
