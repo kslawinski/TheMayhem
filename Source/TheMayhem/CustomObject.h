@@ -25,5 +25,15 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 	UStaticMeshComponent* collisionMesh;
 	
-	
+	void UpdateCollisionBoundaries();
+
+private:
+	float collisionXMin;
+	float collisionXMax;
+
+	float collisionYMin;
+	float collisionYMax;
+
+	float collisionZMin;
+	float collisionZMax;
 };

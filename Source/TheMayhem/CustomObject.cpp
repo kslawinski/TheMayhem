@@ -41,3 +41,10 @@ void ACustomObject::Tick(float DeltaTime)
 
 }
 
+void ACustomObject::UpdateCollisionBoundaries()
+{
+	//FVector origin, bounds;
+	//bounds = collisionMesh->Bounds;
+
+}
+

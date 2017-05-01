@@ -26,21 +26,21 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	for (TObjectIterator<APickup> act; act; ++act)
+	for (TActorIterator<ACustomObject> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
-			APickup* pickup = *act;
-			sceneActors.Add(*act);
+		if (ActorItr->IsPendingKill())
+		{
+			continue;
+		}
+
+		ACustomObject* pickup = *ActorItr;
+		sceneActors.Add(pickup);
+		if (pickup)
+		{
 			UE_LOG(LogTemp, Warning, TEXT("Found %s"), *pickup->GetName())
+		}
+
 	}
-
-
-
-	if (true)
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("Found %s"), *pickup->GetName())
-	}
-
-	//speed = 100.0f;
 }
 
 // Called every frame
@@ -59,7 +59,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 	speed *= scale;
 
 	FVector NewLocation = GetActorLocation();
-	
+
 	
 	FRotator CurrentRotation = GetActorRotation();
 	FRotator NewRotation = FRotator(0.0f, 1.0f, 0.0f);
@@ -73,7 +73,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 	}
 	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
 
-	if (sceneActors[0] != nullptr)
+	if (sceneActors.Num() > 0)
 	{
 		closestActor = FindClosestActor(sceneActors);
 	}
@@ -120,9 +120,9 @@ void APlayerCharacter::RotateRight(float value)
 	}
 }
 
-APickup* APlayerCharacter::FindClosestActor(TArray<APickup*> actors)
+ACustomObject* APlayerCharacter::FindClosestActor(TArray<ACustomObject*> actors)
 {
-	APickup* closestActor = nullptr;
+	ACustomObject* closestActor = nullptr;
 	float closestDistanceSqr = (float)1e10;	// Very big number!
 
 	for (int32 i = 0; i < actors.Num(); i++)

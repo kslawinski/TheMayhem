@@ -43,7 +43,7 @@ public:
 
 	void RotateRight(float value);
 
-	APickup* FindClosestActor(TArray <APickup*> actors);
+	ACustomObject* FindClosestActor(TArray <ACustomObject*> actors);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 	UStaticMeshComponent* characterMesh;
@@ -52,8 +52,8 @@ public:
 	UCameraComponent* characterCamera;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
-	APickup* closestActor;
+	ACustomObject* closestActor;
 		
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
-	TArray <APickup*> sceneActors;
+	TArray <ACustomObject*> sceneActors;
 };
