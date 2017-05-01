@@ -24,6 +24,10 @@ ACustomObject::ACustomObject()
 	collisionMesh->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
 	collisionMesh->CastShadow = false;
 	
+
+
+	//UE_LOG(LogTemp, Warning, TEXT("radius is: %s"), *boxSize.ToString())
+	
 	//SetActorHiddenInGame(true);
 }
 
@@ -31,7 +35,7 @@ ACustomObject::ACustomObject()
 void ACustomObject::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	UpdateCollisionBounds();
 }
 
 // Called every frame
@@ -41,10 +45,50 @@ void ACustomObject::Tick(float DeltaTime)
 
 }
 
-void ACustomObject::UpdateCollisionBoundaries()
+void ACustomObject::UpdateCollisionBounds()
 {
-	//FVector origin, bounds;
-	//bounds = collisionMesh->Bounds;
+	FVector origin, bounds;
 
+	GetActorBounds(false,origin, bounds);
+
+	collisionXMin = origin.X - bounds.X;
+	collisionXMax = origin.X + bounds.X;
+	collisionYMin = origin.Y - bounds.Y;
+	collisionYMax = origin.Y + bounds.Y;
+	collisionZMin = origin.Z - bounds.Z;
+	collisionZMax = origin.Z + bounds.Z;
+
+}
+
+bool ACustomObject::CheckCollision(FVector testVector, float radius, float height)
+{
+	bool isColliding = false;
+
+	bool collidingX = false;
+	bool collidingY = false;
+	bool collidingZ = false;
+
+
+	if (((testVector.X + radius) >= collisionXMin) && ((testVector.X - radius) <= collisionXMax))
+	{
+		collidingX = true;
+	}
+
+	if (((testVector.Y + radius) >= collisionYMin) && ((testVector.Y - radius) <= collisionYMax))
+	{
+		collidingY = true;
+	}
+
+	if ((testVector.Z) >= collisionZMin && ((testVector.Z - height) <= collisionZMax + height))
+	{
+		collidingZ = true;
+	}
+
+	if (collidingX && collidingY && collidingZ)
+	{
+		isColliding = true;
+	}
+
+	return isColliding;
 }
 

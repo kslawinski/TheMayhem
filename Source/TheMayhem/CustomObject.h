@@ -25,7 +25,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 	UStaticMeshComponent* collisionMesh;
 	
-	void UpdateCollisionBoundaries();
+	void UpdateCollisionBounds();
+
+
+	bool CheckCollision(FVector testVector, float radius, float height);
+
 
 private:
 	float collisionXMin;

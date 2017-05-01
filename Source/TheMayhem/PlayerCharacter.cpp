@@ -73,9 +73,21 @@ void APlayerCharacter::Tick(float DeltaTime)
 	}
 	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
 
+
+	// Simple collision detection
 	if (sceneActors.Num() > 0)
 	{
 		closestActor = FindClosestActor(sceneActors);
+
+		if (closestActor)
+		{
+			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 1.0f,2.0f);
+
+			if (isColliding)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("character is colliding?: %i"), isColliding)
+			}
+		}
 	}
 
 }
