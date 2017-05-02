@@ -5,6 +5,13 @@
 #include "GameFramework/Pawn.h"
 #include "PlayerCharacter.generated.h"
 
+UENUM(BlueprintType)
+enum class ESelectedWeapon : uint8
+{
+	GUN,
+	BAZOOKA
+};
+
 UCLASS()
 class THEMAYHEM_API APlayerCharacter : public APawn
 {
@@ -19,7 +26,7 @@ private:
 
 	FRotator rotation;
 
-
+	ESelectedWeapon selectedWeapon;
 
 public:
 	// Sets default values for this pawn's properties
@@ -53,6 +60,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 	UStaticMeshComponent* characterMesh;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
+	UStaticMeshComponent* weaponMesh;
+	UStaticMesh* gunMesh;
+	UStaticMesh* bazookaMesh;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* characterCamera;
 
@@ -61,4 +73,7 @@ public:
 		
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
 	TArray <ACustomObject*> sceneActors;
+
+private:
+	void ChangeWeapon();
 };

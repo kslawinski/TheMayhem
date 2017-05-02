@@ -19,6 +19,17 @@ APlayerCharacter::APlayerCharacter()
 	characterCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Character Camera"));
 	characterCamera->SetupAttachment(characterMesh); 
 
+
+	weaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
+	weaponMesh->SetupAttachment(characterMesh);
+	weaponMesh->SetRelativeLocation(FVector(90.0f, 30.0f, 40.0f));
+	weaponMesh->SetRelativeRotation(FRotator(0.0f, 0.0f, -90.0f));
+	weaponMesh->SetWorldScale3D(FVector(0.2f, 0.2f, 0.2f));
+	const ConstructorHelpers::FObjectFinder<UStaticMesh> GunMeshObj(TEXT("StaticMesh'/Game/Geometry/gun.gun'")); // load a mesh from a file
+	const ConstructorHelpers::FObjectFinder<UStaticMesh> BazookaMeshObj(TEXT("StaticMesh'/Game/Geometry/bazooka.bazooka'")); // load a mesh from a file
+	gunMesh = GunMeshObj.Object;
+	bazookaMesh = BazookaMeshObj.Object;
+
 }
 
 // Called when the game starts or when spawned
@@ -28,6 +39,8 @@ void APlayerCharacter::BeginPlay()
 
 	GunbooletCount = 0;
 	BazookaBooletCount = 0;
+	selectedWeapon = ESelectedWeapon::GUN;
+	weaponMesh->SetStaticMesh(gunMesh);
 
 	for (TActorIterator<ACustomObject> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
@@ -40,7 +53,7 @@ void APlayerCharacter::BeginPlay()
 		sceneActors.Add(pickup);
 		if (pickup)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Found %s"), *pickup->GetName())
+			UE_LOG(LogTemp, Warning, TEXT("Found %s"), *pickup->GetName()) // debug message
 		}
 
 	}
@@ -92,6 +105,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 				APickup* closestPickup = Cast<APickup>(closestActor);
 				if (closestPickup) // if the closest customObject is a Pickup
 				{
+					//TODO calapse this into PickItem function
 					if (closestPickup->pickupType == EpickupType::CONSUMABLE) // if the pickup I am colliding with is a consumable pickup
 					{
 						//UE_LOG(LogTemp, Warning, TEXT("Colliding with consumable pickup"))
@@ -120,6 +134,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("RotateRight", this, &APlayerCharacter::RotateRight);
+	PlayerInputComponent->BindAction("ChangeWeapon", IE_Pressed, this, &APlayerCharacter::ChangeWeapon);
 }
 
 void APlayerCharacter::MoveForward(float value)
@@ -169,4 +184,20 @@ ACustomObject* APlayerCharacter::FindClosestActor(TArray<ACustomObject*> actors)
 	}
 
 	return closestActor;
+}
+
+void APlayerCharacter::ChangeWeapon()
+{
+		if (selectedWeapon == ESelectedWeapon::GUN)
+		{
+			selectedWeapon = ESelectedWeapon::BAZOOKA;
+			weaponMesh->SetStaticMesh(bazookaMesh);
+			UE_LOG(LogTemp, Warning, TEXT("current Weapon is: Bazooka")) // debug message
+		}
+		else
+		{
+			selectedWeapon = ESelectedWeapon::GUN;
+			weaponMesh->SetStaticMesh(gunMesh);
+			UE_LOG(LogTemp, Warning, TEXT("current Weapon is: Gun")) // debug message
+		}
 }

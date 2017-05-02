@@ -21,7 +21,6 @@ public:
 	// Sets default values for this actor's properties
 	APickup();
 
-	//TODO ENUM CONSUMABLE, USABLE
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Setup")
 		EpickupType pickupType;
 
