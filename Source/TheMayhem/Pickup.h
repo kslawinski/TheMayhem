@@ -15,6 +15,11 @@ public:
 	APickup();
 
 protected:
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Setup")
+	int32 quantity;
+
+	//TODO ENUM CONSUMABLE, USABLE
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
