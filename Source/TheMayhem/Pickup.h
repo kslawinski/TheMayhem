@@ -25,9 +25,11 @@ public:
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Setup")
 		EpickupType pickupType;
 
-protected:
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Setup")
-	int32 quantity;
+		int32 quantity; // TODO MAKE PRIVATE ACCESSED by GETTER function
+
+protected:
+
 
 
 

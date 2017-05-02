@@ -25,6 +25,11 @@ public:
 	// Sets default values for this pawn's properties
 	APlayerCharacter();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	int32 GunbooletCount;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	int32 BazookaBooletCount;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

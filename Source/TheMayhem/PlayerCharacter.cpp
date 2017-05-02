@@ -26,6 +26,9 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GunbooletCount = 0;
+	BazookaBooletCount = 0;
+
 	for (TActorIterator<ACustomObject> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
 		if (ActorItr->IsPendingKill())
@@ -91,7 +94,16 @@ void APlayerCharacter::Tick(float DeltaTime)
 				{
 					if (closestPickup->pickupType == EpickupType::CONSUMABLE) // if the pickup I am colliding with is a consumable pickup
 					{
-						UE_LOG(LogTemp, Warning, TEXT("Colliding with consumable pickup"))
+						//UE_LOG(LogTemp, Warning, TEXT("Colliding with consumable pickup"))
+
+						FString actorName = closestPickup->GetName();
+
+						if (actorName.Contains("AmmoPickup"))
+						{
+							GunbooletCount += closestPickup->quantity;
+							sceneActors.Remove(closestActor);
+							closestPickup->Destroy();
+						}
 					}
 				}
 			}
