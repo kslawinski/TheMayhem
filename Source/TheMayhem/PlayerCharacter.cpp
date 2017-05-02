@@ -85,10 +85,14 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 			if (isColliding)
 			{
+				//UE_LOG(LogTemp, Warning, TEXT("character is colliding?: %i"), isColliding)
 				APickup* closestPickup = Cast<APickup>(closestActor);
 				if (closestPickup) // if the closest customObject is a Pickup
 				{
-					UE_LOG(LogTemp, Warning, TEXT("character is colliding?: %i"), isColliding)
+					if (closestPickup->pickupType == EpickupType::CONSUMABLE) // if the pickup I am colliding with is a consumable pickup
+					{
+						UE_LOG(LogTemp, Warning, TEXT("Colliding with consumable pickup"))
+					}
 				}
 			}
 		}

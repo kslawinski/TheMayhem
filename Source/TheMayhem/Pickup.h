@@ -5,6 +5,13 @@
 #include "GameFramework/Actor.h"
 #include "Pickup.generated.h"
 
+UENUM(BlueprintType)
+enum class EpickupType : uint8
+{
+	CONSUMABLE,
+	USABLE
+};
+
 UCLASS()
 class THEMAYHEM_API APickup : public ACustomObject
 {
@@ -14,11 +21,15 @@ public:
 	// Sets default values for this actor's properties
 	APickup();
 
+	//TODO ENUM CONSUMABLE, USABLE
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Setup")
+		EpickupType pickupType;
+
 protected:
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Setup")
 	int32 quantity;
 
-	//TODO ENUM CONSUMABLE, USABLE
+
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
