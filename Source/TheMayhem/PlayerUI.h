@@ -16,6 +16,9 @@ class THEMAYHEM_API UPlayerUI : public UUserWidget
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	float playerHealth;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	int32 playerBoolets;
 	
 	
 };

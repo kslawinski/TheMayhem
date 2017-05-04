@@ -21,8 +21,6 @@ class THEMAYHEM_API APlayerCharacter : public APawn
 
 private:
 	float playerHealth;
-	float gunBullets;
-	float bazookaBoolets;
 
 	FVector currentVelocity;
 	FVector direction;

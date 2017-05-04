@@ -45,6 +45,10 @@ void APlayerCharacter::BeginPlay()
 	selectedWeapon = ESelectedWeapon::GUN;
 	weaponMesh->SetStaticMesh(gunMesh);
 
+	/// DEBUG
+	playerHealth = 20;
+	GunbooletCount = 50;
+
 	for (TActorIterator<ACustomObject> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
 		if (ActorItr->IsPendingKill())
@@ -66,10 +70,14 @@ void APlayerCharacter::BeginPlay()
 	{
 		
 		playerUIwidget = CreateWidget<UPlayerUI>(GetWorld(), PlayerUIClass);
-		playerUIwidget->AddToViewport();
-		playerHealth = 20;
-		RefreshUIWidget();
+
+		if (playerUIwidget != nullptr)
+		{
+			playerUIwidget->AddToViewport();
+		}
 	}
+
+	RefreshUIWidget();
 }
 
 // Called every frame
@@ -127,10 +135,20 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 						if (actorName.Contains("AmmoPickup"))
 						{
-							GunbooletCount += closestPickup->quantity;
+							GunbooletCount += closestPickup->quantity * 15; // 15 bullets in gun magazine (pack)
+							RefreshUIWidget();
 							sceneActors.Remove(closestActor);
 							closestPickup->Destroy();
 						}
+
+						if (actorName.Contains("HealthPickup"))
+						{
+							playerHealth += closestPickup->quantity * 30; // one healthpack gives 30 HP
+							RefreshUIWidget();
+							sceneActors.Remove(closestActor);
+							closestPickup->Destroy();
+						}
+						
 					}
 				}
 			}
@@ -213,9 +231,23 @@ void APlayerCharacter::ChangeWeapon()
 			weaponMesh->SetStaticMesh(gunMesh);
 			UE_LOG(LogTemp, Warning, TEXT("current Weapon is: Gun")) // debug message
 		}
+		RefreshUIWidget();
 }
 
 void APlayerCharacter::RefreshUIWidget()
 {
-	playerUIwidget->playerHealth = playerHealth / 100;// 0.5f; // set healthbar to half 50% 
+	if (playerUIwidget != nullptr)
+	{
+		playerUIwidget->playerHealth = playerHealth / 100;// 0.5f; // set healthbar to half 50%
+
+		if (selectedWeapon == ESelectedWeapon::GUN)
+		{
+			playerUIwidget->playerBoolets = GunbooletCount;
+		}
+
+		if (selectedWeapon == ESelectedWeapon::BAZOOKA)
+		{
+			playerUIwidget->playerBoolets = BazookaBooletCount;
+		}
+	}
 }
