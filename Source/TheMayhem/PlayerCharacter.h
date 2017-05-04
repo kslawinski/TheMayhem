@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+#include "PlayerUI.h"
 #include "Blueprint/UserWidget.h"
 #include "Pickup.h"
 #include "GameFramework/Pawn.h"
@@ -19,6 +20,10 @@ class THEMAYHEM_API APlayerCharacter : public APawn
 	GENERATED_BODY()
 
 private:
+	float playerHealth;
+	float gunBullets;
+	float bazookaBoolets;
+
 	FVector currentVelocity;
 	FVector direction;
 	float speed;
@@ -28,6 +33,8 @@ private:
 	FRotator rotation;
 
 	ESelectedWeapon selectedWeapon;
+
+	void RefreshUIWidget();
 
 public:
 	// Sets default values for this pawn's properties
@@ -77,11 +84,11 @@ public:
 
 	//The widget class
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
-		TSubclassOf<UUserWidget> PlayerUI;
+		TSubclassOf<UPlayerUI> PlayerUIClass;
 
 	//The widget instance
 	UPROPERTY()
-		UUserWidget* playerUIwidget;
+		UPlayerUI* playerUIwidget;
 
 private:
 	void ChangeWeapon();

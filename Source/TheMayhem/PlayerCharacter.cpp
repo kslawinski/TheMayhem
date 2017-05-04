@@ -6,6 +6,8 @@
 
 
 
+
+
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
@@ -60,11 +62,13 @@ void APlayerCharacter::BeginPlay()
 	}
 
 
-	if (PlayerUI != nullptr)
+	if (PlayerUIClass != nullptr)
 	{
 		
-		playerUIwidget = CreateWidget<UUserWidget>(GetWorld(), PlayerUI);
+		playerUIwidget = CreateWidget<UPlayerUI>(GetWorld(), PlayerUIClass);
 		playerUIwidget->AddToViewport();
+		playerHealth = 20;
+		RefreshUIWidget();
 	}
 }
 
@@ -209,4 +213,9 @@ void APlayerCharacter::ChangeWeapon()
 			weaponMesh->SetStaticMesh(gunMesh);
 			UE_LOG(LogTemp, Warning, TEXT("current Weapon is: Gun")) // debug message
 		}
+}
+
+void APlayerCharacter::RefreshUIWidget()
+{
+	playerUIwidget->playerHealth = playerHealth / 100;// 0.5f; // set healthbar to half 50% 
 }
