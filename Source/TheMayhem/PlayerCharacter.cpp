@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+
 #include "TheMayhem.h"
 #include "PlayerCharacter.h"
 
@@ -56,6 +57,14 @@ void APlayerCharacter::BeginPlay()
 			UE_LOG(LogTemp, Warning, TEXT("Found %s"), *pickup->GetName()) // debug message
 		}
 
+	}
+
+
+	if (PlayerUI != nullptr)
+	{
+		
+		playerUIwidget = CreateWidget<UUserWidget>(GetWorld(), PlayerUI);
+		playerUIwidget->AddToViewport();
 	}
 }
 

@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+#include "Blueprint/UserWidget.h"
 #include "Pickup.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerCharacter.generated.h"
@@ -73,6 +74,14 @@ public:
 		
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
 	TArray <ACustomObject*> sceneActors;
+
+	//The widget class
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
+		TSubclassOf<UUserWidget> PlayerUI;
+
+	//The widget instance
+	UPROPERTY()
+		UUserWidget* playerUIwidget;
 
 private:
 	void ChangeWeapon();
