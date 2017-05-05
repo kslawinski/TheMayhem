@@ -42,12 +42,15 @@ void APlayerCharacter::BeginPlay()
 
 	GunbooletCount = 0;
 	BazookaBooletCount = 0;
-	selectedWeapon = ESelectedWeapon::GUN;
-	weaponMesh->SetStaticMesh(gunMesh);
+	selectedWeapon = ESelectedWeapon::NONE;
+	weaponMesh->SetStaticMesh(nullptr);
+	weaponIndex++;
 
 	/// DEBUG
 	playerHealth = 20;
 	GunbooletCount = 50;
+	//bGunEquiped = true;
+	//bBazookaEquiped = true;
 
 	for (TActorIterator<ACustomObject> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
@@ -122,8 +125,10 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 			if (isColliding)
 			{
+
 				//UE_LOG(LogTemp, Warning, TEXT("character is colliding?: %i"), isColliding)
 				APickup* closestPickup = Cast<APickup>(closestActor);
+				FString actorName = closestPickup->GetName();
 				if (closestPickup) // if the closest customObject is a Pickup
 				{
 					//TODO calapse this into PickItem function
@@ -131,7 +136,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 					{
 						//UE_LOG(LogTemp, Warning, TEXT("Colliding with consumable pickup"))
 
-						FString actorName = closestPickup->GetName();
+
 
 						if (actorName.Contains("AmmoPickup"))
 						{
@@ -149,6 +154,27 @@ void APlayerCharacter::Tick(float DeltaTime)
 							closestPickup->Destroy();
 						}
 						
+					}
+					if (closestPickup->pickupType == EpickupType::USABLE) // if the pickup I am colliding with is a consumable pickup
+					{
+						if (actorName.Contains("GunPickup"))
+						{
+							bGunEquiped = true;
+							GunbooletCount += closestPickup->quantity * 15; // gun with one magazine
+							ChangeWeapon();
+							RefreshUIWidget();
+							sceneActors.Remove(closestActor);
+							closestPickup->Destroy();
+						}
+						if (actorName.Contains("BazookaPickup"))
+						{
+							bBazookaEquiped = true;
+							BazookaBooletCount += closestPickup->quantity * 5; // bazooka with 5 rockets
+							ChangeWeapon();
+							RefreshUIWidget();
+							sceneActors.Remove(closestActor);
+							closestPickup->Destroy();
+						}
 					}
 				}
 			}
@@ -219,18 +245,52 @@ ACustomObject* APlayerCharacter::FindClosestActor(TArray<ACustomObject*> actors)
 
 void APlayerCharacter::ChangeWeapon()
 {
-		if (selectedWeapon == ESelectedWeapon::GUN)
+		
+		switch(weaponIndex)
 		{
-			selectedWeapon = ESelectedWeapon::BAZOOKA;
-			weaponMesh->SetStaticMesh(bazookaMesh);
-			UE_LOG(LogTemp, Warning, TEXT("current Weapon is: Bazooka")) // debug message
+			case 0:
+			{
+				UE_LOG(LogTemp, Warning, TEXT("current Weapon is: NONE")) // debug message
+				weaponMesh->SetStaticMesh(nullptr);
+				selectedWeapon = ESelectedWeapon::NONE;
+				break;
+			}
+			case 1:
+			{
+				if (bGunEquiped)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("current Weapon is: Gun")) // debug message
+						weaponMesh->SetStaticMesh(gunMesh);
+						selectedWeapon = ESelectedWeapon::GUN;
+
+					break;
+				}
+
+			}
+			case 2:
+			{
+				if (bBazookaEquiped)
+				{
+
+					UE_LOG(LogTemp, Warning, TEXT("current Weapon is: Bazooka")) // debug message
+						weaponMesh->SetStaticMesh(bazookaMesh);
+					selectedWeapon = ESelectedWeapon::BAZOOKA;
+
+					break;
+				}
+			}
+			default:
+			{
+				weaponIndex = 0;
+			}
+
+		}
+		if (weaponIndex > 2)
+		{
+			weaponIndex = 0;
 		}
 		else
-		{
-			selectedWeapon = ESelectedWeapon::GUN;
-			weaponMesh->SetStaticMesh(gunMesh);
-			UE_LOG(LogTemp, Warning, TEXT("current Weapon is: Gun")) // debug message
-		}
+		weaponIndex++;
 		RefreshUIWidget();
 }
 

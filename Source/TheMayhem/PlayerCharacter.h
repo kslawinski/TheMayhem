@@ -11,7 +11,8 @@ UENUM(BlueprintType)
 enum class ESelectedWeapon : uint8
 {
 	GUN,
-	BAZOOKA
+	BAZOOKA,
+	NONE
 };
 
 UCLASS()
@@ -30,6 +31,8 @@ private:
 
 	FRotator rotation;
 
+	bool bGunEquiped, bBazookaEquiped;
+	int32 weaponIndex;
 	ESelectedWeapon selectedWeapon;
 
 	void RefreshUIWidget();
