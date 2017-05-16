@@ -18,6 +18,22 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 	UStaticMeshComponent* bulletMesh;
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	void BulletFireSetup(FVector direction,float speed);
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+private:
+	FVector currentVelocity;
+	FVector direction;
+	float speed;
+	float currentDeltaTime;
+	FRotator rotation;
 	
 	
 };

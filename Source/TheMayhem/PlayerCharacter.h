@@ -4,6 +4,7 @@
 #include "PlayerUI.h"
 #include "Blueprint/UserWidget.h"
 #include "Pickup.h"
+#include "Bullet.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerCharacter.generated.h"
 
@@ -73,6 +74,8 @@ public:
 	UStaticMeshComponent* weaponMesh;
 	UStaticMesh* gunMesh;
 	UStaticMesh* bazookaMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
+	USceneComponent* gunMoozle;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* characterCamera;
@@ -92,5 +95,9 @@ public:
 		UPlayerUI* playerUIwidget;
 
 private:
+	//FIRING
 	void ChangeWeapon();
+	void Shoot();
+
+	
 };

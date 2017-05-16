@@ -33,6 +33,8 @@ APlayerCharacter::APlayerCharacter()
 	gunMesh = GunMeshObj.Object;
 	bazookaMesh = BazookaMeshObj.Object;
 
+	gunMoozle = CreateDefaultSubobject<USceneComponent>(TEXT("Gun Moozle point"));
+	gunMoozle->SetupAttachment(weaponMesh);
 }
 
 // Called when the game starts or when spawned
@@ -51,6 +53,7 @@ void APlayerCharacter::BeginPlay()
 	GunbooletCount = 50;
 	//bGunEquiped = true;
 	//bBazookaEquiped = true;
+	gunMoozle->SetRelativeLocation(FVector(1.0f, 150.0f, 130.0f));
 
 	for (TActorIterator<ACustomObject> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
@@ -198,6 +201,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("RotateRight", this, &APlayerCharacter::RotateRight);
 	PlayerInputComponent->BindAction("ChangeWeapon", IE_Pressed, this, &APlayerCharacter::ChangeWeapon);
+	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &APlayerCharacter::Shoot);
 }
 
 void APlayerCharacter::MoveForward(float value)
@@ -298,6 +302,18 @@ void APlayerCharacter::ChangeWeapon()
 		else
 		weaponIndex++;
 		RefreshUIWidget();
+}
+
+void APlayerCharacter::Shoot()
+{
+	if (selectedWeapon == ESelectedWeapon::GUN && GunbooletCount > 0)
+	{
+		GunbooletCount--;
+		RefreshUIWidget();
+		ABullet* bulletInstance = (ABullet*)GWorld->SpawnActor(ABullet::StaticClass());
+		bulletInstance->SetActorLocation(gunMoozle->GetComponentLocation());
+		bulletInstance->BulletFireSetup(GetActorForwardVector(), 700.0f);
+	}
 }
 
 void APlayerCharacter::RefreshUIWidget()
