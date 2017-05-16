@@ -128,9 +128,15 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 				//UE_LOG(LogTemp, Warning, TEXT("character is colliding?: %i"), isColliding)
 				APickup* closestPickup = Cast<APickup>(closestActor);
-				FString actorName = closestPickup->GetName();
-				if (closestPickup) // if the closest customObject is a Pickup
+
+				if (closestPickup == nullptr)
 				{
+					return;
+				}
+
+				if (closestPickup != nullptr) // if the closest customObject is a Pickup
+				{
+					FString actorName = closestPickup->GetName();
 					//TODO calapse this into PickItem function
 					if (closestPickup->pickupType == EpickupType::CONSUMABLE) // if the pickup I am colliding with is a consumable pickup
 					{
