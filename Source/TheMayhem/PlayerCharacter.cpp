@@ -310,9 +310,19 @@ void APlayerCharacter::Shoot()
 	{
 		GunbooletCount--;
 		RefreshUIWidget();
-		ABullet* bulletInstance = (ABullet*)GWorld->SpawnActor(ABullet::StaticClass());
+		AGunBullet* bulletInstance = (AGunBullet*)GWorld->SpawnActor(AGunBullet::StaticClass());
 		bulletInstance->SetActorLocation(gunMoozle->GetComponentLocation());
 		bulletInstance->BulletFireSetup(GetActorForwardVector(), 700.0f);
+	}
+
+	if (selectedWeapon == ESelectedWeapon::BAZOOKA && BazookaBooletCount > 0)
+	{
+		BazookaBooletCount--;
+		RefreshUIWidget();
+		ARocket* rocketInstance = (ARocket*)GWorld->SpawnActor(ARocket::StaticClass());
+		rocketInstance->SetActorLocation(gunMoozle->GetComponentLocation());
+		rocketInstance->SetActorRotation(GetActorRotation());
+		rocketInstance->BulletFireSetup(GetActorForwardVector(), 400.0f);
 	}
 }
 

@@ -4,7 +4,8 @@
 #include "PlayerUI.h"
 #include "Blueprint/UserWidget.h"
 #include "Pickup.h"
-#include "Bullet.h"
+#include "GunBullet.h"
+#include "Rocket.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerCharacter.generated.h"
 
