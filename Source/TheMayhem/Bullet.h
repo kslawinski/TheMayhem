@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Target.h"
 #include "CustomObject.h"
 #include "Bullet.generated.h"
 
@@ -24,12 +25,19 @@ public:
 
 	void BulletFireSetup(FVector direction,float speed);
 
+	ACustomObject * FindClosestActor(TArray<ACustomObject*> actors);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 	float frictionFactor = 0.2f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	TArray <ACustomObject*> sceneActors;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	ACustomObject* closestActor;
 
 private:
 	FVector currentVelocity;

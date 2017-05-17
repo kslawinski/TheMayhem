@@ -25,6 +25,17 @@ ATarget::ATarget()
 
 void ATarget::GiveDamage(float damage)
 {
+	targetHealth -= damage;
 
+	if (targetHealth <= damage)
+	{
+		Destroy();
+		UE_LOG(LogTemp, Warning, TEXT("Destroying target"))
+	}
+}
+
+float ATarget::GetTargetHealth()
+{
+	return targetHealth;
 }
 

@@ -16,11 +16,14 @@ class THEMAYHEM_API ATarget : public ACustomObject
 public:
 	ATarget();
 
+	void GiveDamage(float damage);
+	float GetTargetHealth();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void GiveDamage(float damage);
+
 
 	UStaticMeshComponent* targetMesh;
 
