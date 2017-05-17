@@ -28,10 +28,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
+	float frictionFactor = 0.2f;
+
 private:
 	FVector currentVelocity;
 	FVector direction;
 	float speed;
+
+
 	float currentDeltaTime;
 	FRotator rotation;
 	

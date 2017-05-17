@@ -29,7 +29,7 @@ void ABullet::Tick(float DeltaTime)
 	currentVelocity = direction * speed;
 
 	// Apply friction
-	float scale = 1.0f - (DeltaTime * 0.2f);
+	float scale = 1.0f - (DeltaTime * frictionFactor);
 	speed *= scale;
 
 	FVector NewLocation = GetActorLocation();
@@ -46,6 +46,8 @@ void ABullet::Tick(float DeltaTime)
 		SetActorLocation(NewLocation);
 	}
 //	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
+
+	//TODO BULLET NEED TO CHECK COLLISION CHECK COLLISION FUNCTION
 }
 
 void ABullet::BulletFireSetup(FVector direction, float speed)

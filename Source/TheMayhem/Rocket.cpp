@@ -11,5 +11,5 @@ ARocket::ARocket()
 	collisionMesh->SetWorldScale3D(FVector(0.4f, 0.1f, 0.1f));
 	bulletMesh->SetWorldScale3D(FVector(0.2f, 0.2f, 0.2f));
 	bulletMesh->SetRelativeRotation(FRotator(0.0f,-90,0.0f));
-	//StaticMesh'/Game/Geometry/BazookaAmmo.BazookaAmmo'
+	frictionFactor = 0.05f;
 }

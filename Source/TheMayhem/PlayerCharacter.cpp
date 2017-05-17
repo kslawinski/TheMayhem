@@ -322,7 +322,7 @@ void APlayerCharacter::Shoot()
 		ARocket* rocketInstance = (ARocket*)GWorld->SpawnActor(ARocket::StaticClass());
 		rocketInstance->SetActorLocation(gunMoozle->GetComponentLocation());
 		rocketInstance->SetActorRotation(GetActorRotation());
-		rocketInstance->BulletFireSetup(GetActorForwardVector(), 400.0f);
+		rocketInstance->BulletFireSetup(GetActorForwardVector(), 600.0f);
 	}
 }
 
