@@ -124,10 +124,23 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 		if (closestActor)
 		{
-			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 1.0f,2.0f);
+			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 30.0f,60.0f);
 
 			if (isColliding)
 			{
+				FString actorName = closestActor->GetName();
+
+				if (actorName.Contains("Wall"))
+				{
+					float lastSpeed = speed;
+					UE_LOG(LogTemp, Warning, TEXT("colliding with wall"))
+					speed -= lastSpeed * 2.0f;
+					FVector lastLocation = GetActorLocation();
+					currentVelocity = (FVector(0.0f, 0.0f, 0.0f));
+					SetActorLocation(lastLocation);
+
+					return;
+				}
 
 				//UE_LOG(LogTemp, Warning, TEXT("character is colliding?: %i"), isColliding)
 				APickup* closestPickup = Cast<APickup>(closestActor);
@@ -139,7 +152,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 				if (closestPickup != nullptr) // if the closest customObject is a Pickup
 				{
-					FString actorName = closestPickup->GetName();
+					
 					//TODO calapse this into PickItem function
 					if (closestPickup->pickupType == EpickupType::CONSUMABLE) // if the pickup I am colliding with is a consumable pickup
 					{
@@ -209,7 +222,9 @@ void APlayerCharacter::MoveForward(float value)
 	if (value == 1.0f || value == -1.0f)
 	{
 		direction = GetActorForwardVector() * value;
-		speed = 100.0f;
+		speed += 1.0f;
+
+		FMath::Clamp(speed, -40.0f, 40.0f);
 	}
 }
 
@@ -218,7 +233,9 @@ void APlayerCharacter::MoveRight(float value)
 	if (value == 1.0f || value == -1.0f)
 	{
 		direction = GetActorRightVector() * value;
-		speed = 100.0f;
+		speed += 1.0f;
+
+		FMath::Clamp(speed, -40.0f, 40.0f);
 	}
 }
 

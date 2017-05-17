@@ -71,7 +71,7 @@ void ABullet::Tick(float DeltaTime)
 
 			if (isColliding)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("cplliding with target"))
+				UE_LOG(LogTemp, Warning, TEXT("colliding with target"))
 				FString actorName = closestActor->GetName();
 
 				if (actorName.Contains("Target"))
@@ -89,6 +89,11 @@ void ABullet::Tick(float DeltaTime)
 						if (closestTarget->GetTargetHealth() <= 0)
 						{
 							sceneActors.Remove(closestTarget);
+						}
+
+						if (closestTarget->IsPendingKill())
+						{
+							return;
 						}
 						Destroy();
 					}

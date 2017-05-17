@@ -47,6 +47,7 @@ void ACustomObject::Tick(float DeltaTime)
 
 void ACustomObject::UpdateCollisionBounds()
 {
+	UE_LOG(LogTemp, Warning, TEXT("collision bounds updated"))
 	FVector origin, bounds;
 
 	GetActorBounds(false,origin, bounds);
