@@ -329,7 +329,23 @@ void APlayerCharacter::Shoot()
 		RefreshUIWidget();
 		AGunBullet* bulletInstance = (AGunBullet*)GWorld->SpawnActor(AGunBullet::StaticClass());
 		bulletInstance->SetActorLocation(gunMoozle->GetComponentLocation());
-		bulletInstance->BulletFireSetup(GetActorForwardVector(), 700.0f);
+		//TODO Calculate direction
+		FVector shootDirection;
+		int32 screenSizeX,screenSizeY;
+		auto playerCon = GetWorld()->GetFirstPlayerController();
+
+		playerCon->GetViewportSize(screenSizeX, screenSizeY);
+
+		FVector2D aimLocation = FVector2D(screenSizeX * aimPointXLocation, screenSizeY * aimPointYLocation);
+
+		FVector camLocation;// = characterCamera->GetComponentLocation();
+
+		if (playerCon->DeprojectScreenPositionToWorld(aimLocation.X, aimLocation.Y, camLocation, shootDirection))
+		{
+			bulletInstance->BulletFireSetup(shootDirection, 700.0f);
+		}
+
+
 	}
 
 	if (selectedWeapon == ESelectedWeapon::BAZOOKA && BazookaBooletCount > 0)

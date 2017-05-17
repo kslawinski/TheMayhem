@@ -37,8 +37,10 @@ private:
 	int32 weaponIndex;
 	ESelectedWeapon selectedWeapon;
 
+	float aimPointXLocation = 0.5f;
+	float aimPointYLocation = 0.5f;
 	void RefreshUIWidget();
-
+	
 public:
 	// Sets default values for this pawn's properties
 	APlayerCharacter();
