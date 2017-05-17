@@ -133,7 +133,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 				if (actorName.Contains("Wall"))
 				{
 					float lastSpeed = speed;
-					UE_LOG(LogTemp, Warning, TEXT("colliding with wall"))
+					//UE_LOG(LogTemp, Warning, TEXT("colliding with wall"))
 					speed -= lastSpeed * 2.0f;
 					FVector lastLocation = GetActorLocation();
 					currentVelocity = (FVector(0.0f, 0.0f, 0.0f));
