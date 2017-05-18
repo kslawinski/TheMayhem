@@ -57,7 +57,9 @@ void APlayerCharacter::BeginPlay()
 
 	for (TActorIterator<ACustomObject> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
-		if (ActorItr->IsPendingKill())
+		FString SceneActorName = ActorItr->GetName();
+
+		if (SceneActorName.Contains("Target"))
 		{
 			continue;
 		}
@@ -124,6 +126,11 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 		if (closestActor)
 		{
+			if (closestActor->IsPendingKill())
+			{
+				return;
+			}
+
 			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 30.0f,60.0f);
 
 			if (isColliding)
@@ -258,6 +265,13 @@ ACustomObject* APlayerCharacter::FindClosestActor(TArray<ACustomObject*> actors)
 
 	for (int32 i = 0; i < actors.Num(); i++)
 	{
+
+
+		if (actors[i]->IsPendingKill())
+		{
+			continue;
+		}
+
 		FVector distanceToTarget = (actors[i]->GetActorLocation() - this->GetActorLocation());
 
 		if (distanceToTarget.SizeSquared() < closestDistanceSqr)
