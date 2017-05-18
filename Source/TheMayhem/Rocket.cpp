@@ -12,4 +12,6 @@ ARocket::ARocket()
 	bulletMesh->SetWorldScale3D(FVector(0.2f, 0.2f, 0.2f));
 	bulletMesh->SetRelativeRotation(FRotator(0.0f,-90,0.0f));
 	frictionFactor = 0.05f;
+
+	bulletDamage = 50.0f;
 }

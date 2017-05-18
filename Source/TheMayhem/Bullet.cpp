@@ -124,7 +124,7 @@ void ABullet::Tick(float DeltaTime)
 							return;
 						}
 
-						closestTarget->GiveDamage(20.0f);
+						closestTarget->GiveDamage(bulletDamage);
 						if (closestTarget->GetTargetHealth() <= 0)
 						{
 							sceneActors.Remove(closestTarget);

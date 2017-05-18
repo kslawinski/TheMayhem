@@ -8,7 +8,7 @@ void ATarget::BeginPlay()
 {
 	Super::BeginPlay();
 
-	targetHealth = 100.0f;
+	
 }
 
 ATarget::ATarget()
@@ -21,6 +21,8 @@ ATarget::ATarget()
 
 	targetMesh->SetWorldScale3D(FVector(0.1f, 0.5f, 0.5f));
 	collisionMesh->SetWorldScale3D(FVector(0.2f, 0.6f, 0.6f));
+
+	targetHealth = 100.0f;
 }
 
 void ATarget::GiveDamage(float damage)

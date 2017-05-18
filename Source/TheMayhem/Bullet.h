@@ -33,6 +33,7 @@ protected:
 
 	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 	float frictionFactor = 0.2f;
+	float bulletDamage = 10;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
 	TArray <ACustomObject*> sceneActors;
@@ -44,6 +45,8 @@ private:
 	FVector direction;
 	float speed;
 	float lifeTime;
+
+
 
 	float currentDeltaTime;
 	FRotator rotation;
