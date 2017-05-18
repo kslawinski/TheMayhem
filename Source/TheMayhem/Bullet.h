@@ -43,7 +43,7 @@ private:
 	FVector currentVelocity;
 	FVector direction;
 	float speed;
-
+	float lifeTime;
 
 	float currentDeltaTime;
 	FRotator rotation;

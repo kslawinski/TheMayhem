@@ -19,9 +19,18 @@ void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
 
+	lifeTime = 1.0f;
+
 	for (TActorIterator<ACustomObject> ActorItr(GetWorld()); ActorItr; ++ActorItr) // gather all custom objects from the scene
 	{
 		if (ActorItr->IsPendingKill())
+		{
+			continue;
+		}
+
+		FString actorName = ActorItr->GetName();
+
+		if (*ActorItr == this || actorName.Contains("Bullet") || actorName.Contains("Rocket"))
 		{
 			continue;
 		}
@@ -38,6 +47,14 @@ void ABullet::Tick(float DeltaTime)
 	currentDeltaTime = DeltaTime;
 
 	currentVelocity = direction * speed;
+
+	lifeTime = lifeTime- (DeltaTime * frictionFactor);
+	UE_LOG(LogTemp, Warning, TEXT("bullet life : %f"), lifeTime)
+
+	if (lifeTime <= 0)
+	{
+		Destroy();
+	}
 
 	// Apply friction
 	float scale = 1.0f - (DeltaTime * frictionFactor);
@@ -76,7 +93,7 @@ void ABullet::Tick(float DeltaTime)
 
 				if (actorName.Contains("Wall"))
 				{
-					UE_LOG(LogTemp, Warning, TEXT("bullet colliding with wall"))
+					//UE_LOG(LogTemp, Warning, TEXT("bullet colliding with wall"))
 
 						if (IsPendingKill())
 						{
@@ -136,12 +153,12 @@ ACustomObject* ABullet::FindClosestActor(TArray<ACustomObject*> actors)
 
 	for (int32 i = 0; i < actors.Num(); i++)
 	{
-		FString actorName = actors[i]->GetName();
-
-		if (actors[i] == this || actorName.Contains("Bullet") || actorName.Contains("Rocket"))
+		if (actors[i]->IsPendingKill())
 		{
 			continue;
 		}
+
+
 
 		if (actors[i] == nullptr)
 		{
