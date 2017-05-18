@@ -14,5 +14,8 @@ ALightTarget::ALightTarget()
 	lightComponent->SetLightColor(FColor::Red,true);
 
 	targetHealth = 10.0f;
+
+	//destructionMesh = CreateDefaultSubobject<UDestructibleMesh>(TEXT("destruction Mesh"), false);
+	
 }
 

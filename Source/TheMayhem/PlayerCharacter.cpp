@@ -118,6 +118,10 @@ void APlayerCharacter::Tick(float DeltaTime)
 	}
 	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
 
+	FRotator CamCurrentElevation = FRotator(characterCamera->GetComponentRotation().Pitch,0.0f,0.0f);
+	FRotator NewCamElevation =  FRotator(1.0f, 0.0f, 0.0f);
+
+	characterCamera->SetRelativeRotation(CamCurrentElevation + NewCamElevation * camElevationSpeed * DeltaTime);
 
 	// Simple collision detection
 	if (sceneActors.Num() > 0)
@@ -220,6 +224,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("RotateRight", this, &APlayerCharacter::RotateRight);
+	PlayerInputComponent->BindAxis("CamElevateUp", this, &APlayerCharacter::CamElevateUp);
 	PlayerInputComponent->BindAction("ChangeWeapon", IE_Pressed, this, &APlayerCharacter::ChangeWeapon);
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &APlayerCharacter::Shoot);
 }
@@ -255,6 +260,18 @@ void APlayerCharacter::RotateRight(float value)
 	else
 	{
 		rotationSpeed = 0;
+	}
+}
+
+void APlayerCharacter::CamElevateUp(float value)
+{
+	if (value == 1.0f || value == -1.0f)
+	{
+		camElevationSpeed = value * 100.0f;
+	}
+	else
+	{
+		camElevationSpeed = 0;
 	}
 }
 

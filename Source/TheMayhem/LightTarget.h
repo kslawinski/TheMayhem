@@ -17,5 +17,7 @@ class THEMAYHEM_API ALightTarget : public ATarget
 	
 private:
 	UPointLightComponent* lightComponent;
+
+	//UDestructibleMesh* destructionMesh;
 	
 };

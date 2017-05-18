@@ -29,6 +29,7 @@ private:
 	FVector direction;
 	float speed;
 	float rotationSpeed;
+	float camElevationSpeed;
 	float currentDeltaTime;
 
 	FRotator rotation;
@@ -67,6 +68,8 @@ public:
 	void MoveRight(float value);
 
 	void RotateRight(float value);
+
+	void CamElevateUp(float value);
 
 	ACustomObject* FindClosestActor(TArray <ACustomObject*> actors);
 
