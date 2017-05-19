@@ -2,7 +2,7 @@
 
 #include "TheMayhem.h"
 #include "Bullet.h"
-#include "PlayerCharacter.h"
+
 
 ABullet::ABullet()
 {
@@ -40,21 +40,7 @@ void ABullet::BeginPlay()
 		sceneActors.Add(customObject);
 	}
 
-	for (TActorIterator<APlayerCharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr) // Find Player
-	{
-		if(*ActorItr == nullptr)
-		{
-			continue;
-		}
-		FString actorName = *ActorItr->GetName();
 
-		if (actorName.Contains("Player"))
-		{
-			player = *ActorItr;
-			break;
-		}
-		
-	}
 }
 
 // Called every frame
@@ -93,26 +79,7 @@ void ABullet::Tick(float DeltaTime)
 //	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
 
 
-	if (player)
-	{
-			//UE_LOG(LogTemp, Warning, TEXT("bullet life : %f"), lifeTime)
 
-		if (lifeTime < 0.90f)
-		{
-			UpdateCollisionBounds();
-
-			if (CheckCollision(player->GetActorLocation(), 2.0f, 5.0f))
-			{
-				player->GiveDamage(bulletDamage);
-				if (this->IsPendingKill())
-				{
-					return;
-				}
-
-				Destroy();
-			}
-		}
-	}
 
 	// Simple collision detection
 	if (sceneActors.Num() > 0)

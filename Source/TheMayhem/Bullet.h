@@ -10,7 +10,7 @@
 /**
  * 
  */
-class APlayerCharacter;
+
 
 UCLASS()
 class THEMAYHEM_API ABullet : public ACustomObject
@@ -44,8 +44,7 @@ protected:
 	TArray <ACustomObject*> sceneActors;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
 	ACustomObject* closestActor;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
-	APlayerCharacter* player;
+
 
 private:
 	FVector currentVelocity;

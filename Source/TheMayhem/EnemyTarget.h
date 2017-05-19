@@ -8,28 +8,35 @@
 /**
  * 
  */
+
+class APlayerCharacter; // forward declaration of player
+
 UCLASS()
 class THEMAYHEM_API AEnemyTarget : public ATarget
 {
 	GENERATED_BODY()
-	
-private:
-
-
-	UStaticMesh* gunMesh;
-	UStaticMesh* bazookaMesh;
-
-
-	void Shoot();
-	
 public:
 	AEnemyTarget();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
+		USceneComponent* gunMoozle;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
-	USceneComponent* gunMoozle;
+		UStaticMeshComponent* weaponMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
+		APlayerCharacter* player;
+
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
-	UStaticMeshComponent* weaponMesh;
+private:
+	UStaticMesh* gunMesh;
+	UStaticMesh* bazookaMesh;
+
+	FVector enemyLookDirection;
 	
 };
