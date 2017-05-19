@@ -86,10 +86,17 @@ void ABullet::Tick(float DeltaTime)
 		{
 			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 1.0f, 2.0f);
 
+			//UE_LOG(LogTemp, Warning, TEXT("colliding with target"))
+			FString actorName = closestActor->GetName();
+
+			if (actorName.Contains("Moving"))
+			{
+				closestActor->UpdateCollisionBounds();
+			}
+
 			if (isColliding)
 			{
-				//UE_LOG(LogTemp, Warning, TEXT("colliding with target"))
-				FString actorName = closestActor->GetName();
+
 
 				if (actorName.Contains("Wall"))
 				{
