@@ -99,10 +99,9 @@ void ABullet::Tick(float DeltaTime)
 
 		if (lifeTime < 0.90f)
 		{
-			player->UpdateCollisionBounds();
 			UpdateCollisionBounds();
 
-			if (CheckCollision(player->GetActorLocation(), 1.0f, 2.0f))
+			if (CheckCollision(player->GetActorLocation(), 2.0f, 5.0f))
 			{
 				player->GiveDamage(bulletDamage);
 				if (this->IsPendingKill())

@@ -41,8 +41,8 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	UpdateCollisionBounds();
 
+	playerHealth = 100;
 	GunbooletCount = 0;
 	BazookaBooletCount = 0;
 	selectedWeapon = ESelectedWeapon::NONE;
@@ -50,7 +50,6 @@ void APlayerCharacter::BeginPlay()
 	weaponIndex++;
 
 	/// DEBUG
-	//playerHealth = 20;
 	//GunbooletCount = 50;
 	//bGunEquiped = true;
 	//bBazookaEquiped = true;
@@ -409,21 +408,6 @@ void APlayerCharacter::RefreshUIWidget()
 	}
 }
 
-void APlayerCharacter::UpdateCollisionBounds()
-{
-	UE_LOG(LogTemp, Warning, TEXT("collision bounds updated"))
-		FVector origin, bounds;
-
-	GetActorBounds(false, origin, bounds);
-
-	collisionXMin = origin.X - bounds.X;
-	collisionXMax = origin.X + bounds.X;
-	collisionYMin = origin.Y - bounds.Y;
-	collisionYMax = origin.Y + bounds.Y;
-	collisionZMin = origin.Z - bounds.Z;
-	collisionZMax = origin.Z + bounds.Z;
-
-}
 
 void APlayerCharacter::GiveDamage(float damage)
 {

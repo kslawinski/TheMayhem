@@ -26,14 +26,6 @@ class THEMAYHEM_API APlayerCharacter : public APawn
 
 private:
 
-	float collisionXMin;
-	float collisionXMax;
-
-	float collisionYMin;
-	float collisionYMax;
-
-	float collisionZMin;
-	float collisionZMax;
 
 	float playerHealth;
 
@@ -62,8 +54,6 @@ public:
 	int32 GunbooletCount;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
 	int32 BazookaBooletCount;
-
-	void UpdateCollisionBounds();
 
 	void GiveDamage(float damage);
 
