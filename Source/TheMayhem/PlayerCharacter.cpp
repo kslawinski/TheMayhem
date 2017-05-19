@@ -17,16 +17,25 @@ APlayerCharacter::APlayerCharacter()
 	// Set this pawn to be controlled by the lowest-numbered player
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
-	characterMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Character Mesh"));
-	characterMesh->SetupAttachment(RootComponent);
-	characterCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Character Camera"));
-	characterCamera->SetupAttachment(characterMesh); 
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
+	characterMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Character Mesh"));
+
+	const ConstructorHelpers::FObjectFinder<UStaticMesh> CharacterMeshObj(TEXT("StaticMesh'/Engine/EngineMeshes/Cube.Cube'")); // load a mesh from a file
+	characterMesh->SetStaticMesh(CharacterMeshObj.Object);
+
+	characterMesh->SetupAttachment(RootComponent);
+
+
+
+	characterCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Character Camera"));
+	characterCamera->SetupAttachment(RootComponent);
+	characterCamera->SetRelativeLocation(FVector(45.0f, 0.0f, 70.0f));
 
 	weaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
-	weaponMesh->SetupAttachment(characterMesh);
-	weaponMesh->SetRelativeLocation(FVector(90.0f, 30.0f, 40.0f));
-	weaponMesh->SetRelativeRotation(FRotator(0.0f, 0.0f, -90.0f));
+	weaponMesh->SetupAttachment(RootComponent);
+	weaponMesh->SetRelativeLocation(FVector(120.0f, 45.0f, 30.0f));
+	weaponMesh->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	weaponMesh->SetWorldScale3D(FVector(0.2f, 0.2f, 0.2f));
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> GunMeshObj(TEXT("StaticMesh'/Game/Geometry/gun.gun'")); // load a mesh from a file
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> BazookaMeshObj(TEXT("StaticMesh'/Game/Geometry/bazooka.bazooka'")); // load a mesh from a file
@@ -35,6 +44,8 @@ APlayerCharacter::APlayerCharacter()
 
 	gunMoozle = CreateDefaultSubobject<USceneComponent>(TEXT("Gun Moozle point"));
 	gunMoozle->SetupAttachment(weaponMesh);
+
+	characterMesh->SetWorldScale3D(FVector(0.2f, 0.2f, 0.6f));
 }
 
 // Called when the game starts or when spawned

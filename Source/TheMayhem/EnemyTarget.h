@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "EnemyGunBullet.h"
 #include "Target.h"
 #include "EnemyTarget.generated.h"
 
@@ -38,5 +39,7 @@ private:
 	UStaticMesh* bazookaMesh;
 
 	FVector enemyLookDirection;
+
+	void Shoot();
 	
 };

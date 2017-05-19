@@ -79,17 +79,17 @@ public:
 
 	ACustomObject* FindClosestActor(TArray <ACustomObject*> actors);
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SETUP")
 	UStaticMeshComponent* characterMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SETUP")
 	UStaticMeshComponent* weaponMesh;
 	UStaticMesh* gunMesh;
 	UStaticMesh* bazookaMesh;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SETUP")
 	USceneComponent* gunMoozle;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CAMERA")
 	UCameraComponent* characterCamera;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
@@ -99,7 +99,7 @@ public:
 	TArray <ACustomObject*> sceneActors;
 
 	//The widget class
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "SETUP")
 		TSubclassOf<UPlayerUI> PlayerUIClass;
 
 	//The widget instance
