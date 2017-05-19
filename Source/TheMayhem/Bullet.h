@@ -4,15 +4,20 @@
 
 #include "Target.h"
 #include "CustomObject.h"
+//#include "PlayerCharacter.h"
 #include "Bullet.generated.h"
 
 /**
  * 
  */
+class APlayerCharacter;
+
 UCLASS()
 class THEMAYHEM_API ABullet : public ACustomObject
 {
 	GENERATED_BODY()
+
+
 
 public:
 	ABullet();
@@ -39,6 +44,8 @@ protected:
 	TArray <ACustomObject*> sceneActors;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
 	ACustomObject* closestActor;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	APlayerCharacter* player;
 
 private:
 	FVector currentVelocity;

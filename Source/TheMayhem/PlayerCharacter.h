@@ -9,6 +9,8 @@
 #include "GameFramework/Pawn.h"
 #include "PlayerCharacter.generated.h"
 
+
+
 UENUM(BlueprintType)
 enum class ESelectedWeapon : uint8
 {
@@ -23,6 +25,16 @@ class THEMAYHEM_API APlayerCharacter : public APawn
 	GENERATED_BODY()
 
 private:
+
+	float collisionXMin;
+	float collisionXMax;
+
+	float collisionYMin;
+	float collisionYMax;
+
+	float collisionZMin;
+	float collisionZMax;
+
 	float playerHealth;
 
 	FVector currentVelocity;
@@ -50,6 +62,10 @@ public:
 	int32 GunbooletCount;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
 	int32 BazookaBooletCount;
+
+	void UpdateCollisionBounds();
+
+	void GiveDamage(float damage);
 
 protected:
 	// Called when the game starts or when spawned

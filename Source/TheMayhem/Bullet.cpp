@@ -2,6 +2,7 @@
 
 #include "TheMayhem.h"
 #include "Bullet.h"
+#include "PlayerCharacter.h"
 
 ABullet::ABullet()
 {
@@ -38,6 +39,22 @@ void ABullet::BeginPlay()
 		ACustomObject* customObject = *ActorItr;
 		sceneActors.Add(customObject);
 	}
+
+	for (TActorIterator<APlayerCharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr) // Find Player
+	{
+		if(*ActorItr == nullptr)
+		{
+			continue;
+		}
+		FString actorName = *ActorItr->GetName();
+
+		if (actorName.Contains("Player"))
+		{
+			player = *ActorItr;
+			break;
+		}
+		
+	}
 }
 
 // Called every frame
@@ -49,7 +66,7 @@ void ABullet::Tick(float DeltaTime)
 	currentVelocity = direction * speed;
 
 	lifeTime = lifeTime- (DeltaTime * frictionFactor);
-	UE_LOG(LogTemp, Warning, TEXT("bullet life : %f"), lifeTime)
+	//UE_LOG(LogTemp, Warning, TEXT("bullet life : %f"), lifeTime)
 
 	if (lifeTime <= 0)
 	{
@@ -75,7 +92,28 @@ void ABullet::Tick(float DeltaTime)
 	}
 //	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
 
-	//TODO BULLET NEED TO CHECK collision inside the closest object
+
+	if (player)
+	{
+			//UE_LOG(LogTemp, Warning, TEXT("bullet life : %f"), lifeTime)
+
+		if (lifeTime < 0.90f)
+		{
+			player->UpdateCollisionBounds();
+			UpdateCollisionBounds();
+
+			if (CheckCollision(player->GetActorLocation(), 1.0f, 2.0f))
+			{
+				player->GiveDamage(bulletDamage);
+				if (this->IsPendingKill())
+				{
+					return;
+				}
+
+				Destroy();
+			}
+		}
+	}
 
 	// Simple collision detection
 	if (sceneActors.Num() > 0)
@@ -91,7 +129,7 @@ void ABullet::Tick(float DeltaTime)
 
 			if (actorName.Contains("Moving"))
 			{
-				closestActor->UpdateCollisionBounds();
+				closestActor->UpdateCollisionBounds(); // if the target is a moving target uptate its bounds every frame to check collision
 			}
 
 			if (isColliding)

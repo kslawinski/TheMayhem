@@ -41,7 +41,6 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	UpdateCollisionBounds();
 
 	GunbooletCount = 0;
 	BazookaBooletCount = 0;
@@ -50,8 +49,8 @@ void APlayerCharacter::BeginPlay()
 	weaponIndex++;
 
 	/// DEBUG
-	//playerHealth = 20;
-	//GunbooletCount = 50;
+	playerHealth = 20;
+	GunbooletCount = 50;
 	//bGunEquiped = true;
 	//bBazookaEquiped = true;
 	gunMoozle->SetRelativeLocation(FVector(1.0f, 150.0f, 130.0f));
@@ -423,6 +422,38 @@ void APlayerCharacter::UpdateCollisionBounds()
 	collisionZMin = origin.Z - bounds.Z;
 	collisionZMax = origin.Z + bounds.Z;
 
+}
+
+bool APlayerCharacter::CheckCollision(FVector testVector, float radius, float height)
+{
+	bool isColliding = false;
+
+	bool collidingX = false;
+	bool collidingY = false;
+	bool collidingZ = false;
+
+
+	if (((testVector.X + radius) >= collisionXMin) && ((testVector.X - radius) <= collisionXMax))
+	{
+		collidingX = true;
+	}
+
+	if (((testVector.Y + radius) >= collisionYMin) && ((testVector.Y - radius) <= collisionYMax))
+	{
+		collidingY = true;
+	}
+
+	if ((testVector.Z) >= collisionZMin && ((testVector.Z - height) <= collisionZMax + height))
+	{
+		collidingZ = true;
+	}
+
+	if (collidingX && collidingY && collidingZ)
+	{
+		isColliding = true;
+	}
+
+	return isColliding;
 }
 
 void APlayerCharacter::GiveDamage(float damage)
