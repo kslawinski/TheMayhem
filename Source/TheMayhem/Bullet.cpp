@@ -86,6 +86,8 @@ void ABullet::Tick(float DeltaTime)
 	{
 		closestActor = FindClosestActor(sceneActors);
 
+		if (closestActor == nullptr) { return; }
+
 		if (closestActor)
 		{
 			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 1.0f, 2.0f);
@@ -135,13 +137,12 @@ void ABullet::Tick(float DeltaTime)
 							return;
 						}
 
+						if(closestTarget == nullptr){return;}
 						closestTarget->GiveDamage(bulletDamage);
 						if (closestTarget->GetTargetHealth() <= 0)
 						{
 							sceneActors.Remove(closestTarget);
 						}
-
-
 						Destroy();
 					}
 				}
@@ -159,32 +160,30 @@ void ABullet::BulletFireSetup(FVector direction, float speed)
 
 ACustomObject* ABullet::FindClosestActor(TArray<ACustomObject*> actors)
 {
-	ACustomObject* closestActor = nullptr;
+	//ACustomObject* closestActor = nullptr;
 	float closestDistanceSqr = (float)1e10;	// Very big number!
 
 	for (int32 i = 0; i < actors.Num(); i++)
 	{
 		if (actors[i]->IsPendingKill())
 		{
-			continue;
+			break;
 		}
-
-
 
 		if (actors[i] == nullptr)
 		{
-			continue;
+			break;
 		}
 
-		FVector distanceToTarget = (actors[i]->GetActorLocation() - this->GetActorLocation());
+			FVector distanceToTarget = (actors[i]->GetActorLocation() - this->GetActorLocation());
 
-		if (distanceToTarget.SizeSquared() < closestDistanceSqr)
-		{
+			if (distanceToTarget.SizeSquared() < closestDistanceSqr)
+			{
 
-			closestDistanceSqr = distanceToTarget.SizeSquared();
+				closestDistanceSqr = distanceToTarget.SizeSquared();
 
-			closestActor = actors[i];
-		}
+				closestActor = actors[i];
+			}
 	}
 
 	return closestActor;
