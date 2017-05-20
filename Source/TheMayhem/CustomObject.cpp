@@ -47,7 +47,7 @@ void ACustomObject::Tick(float DeltaTime)
 
 void ACustomObject::UpdateCollisionBounds()
 {
-	UE_LOG(LogTemp, Warning, TEXT("collision bounds updated"))
+	//UE_LOG(LogTemp, Warning, TEXT("collision bounds updated"))
 	FVector origin, bounds;
 
 	GetActorBounds(false,origin, bounds);
@@ -63,6 +63,9 @@ void ACustomObject::UpdateCollisionBounds()
 
 bool ACustomObject::CheckCollision(FVector testVector, float radius, float height)
 {
+	//UE_LOG(LogTemp, Warning, TEXT("bullet: player location %s"), *testVector.ToString())
+		//UE_LOG(LogTemp, Warning, TEXT("bullet: bullet location %s"), *GetActorLocation().ToString())
+
 	bool isColliding = false;
 
 	bool collidingX = false;

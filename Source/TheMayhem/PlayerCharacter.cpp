@@ -17,21 +17,22 @@ APlayerCharacter::APlayerCharacter()
 	// Set this pawn to be controlled by the lowest-numbered player
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
+//ROOT
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
+//CHARACTER MESH
 	characterMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Character Mesh"));
-
+	characterMesh->SetupAttachment(RootComponent);
+	characterMesh->SetWorldScale3D(FVector(0.2f, 0.2f, 0.6f));
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> CharacterMeshObj(TEXT("StaticMesh'/Engine/EngineMeshes/Cube.Cube'")); // load a mesh from a file
 	characterMesh->SetStaticMesh(CharacterMeshObj.Object);
 
-	characterMesh->SetupAttachment(RootComponent);
-
-
-
+//CAMERA
 	characterCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Character Camera"));
 	characterCamera->SetupAttachment(RootComponent);
 	characterCamera->SetRelativeLocation(FVector(45.0f, 0.0f, 70.0f));
 
+//WEAPONS
 	weaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
 	weaponMesh->SetupAttachment(RootComponent);
 	weaponMesh->SetRelativeLocation(FVector(120.0f, 45.0f, 30.0f));
@@ -42,16 +43,20 @@ APlayerCharacter::APlayerCharacter()
 	gunMesh = GunMeshObj.Object;
 	bazookaMesh = BazookaMeshObj.Object;
 
+//GunMoozle
 	gunMoozle = CreateDefaultSubobject<USceneComponent>(TEXT("Gun Moozle point"));
 	gunMoozle->SetupAttachment(weaponMesh);
+	gunMoozle->SetRelativeLocation(FVector(0.0f, 174.0f, 125.0f));
 
-	characterMesh->SetWorldScale3D(FVector(0.2f, 0.2f, 0.6f));
+
 }
 
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UpdateCollisionBounds();
 
 	playerHealth = 100;
 	GunbooletCount = 0;
@@ -423,4 +428,56 @@ void APlayerCharacter::RefreshUIWidget()
 void APlayerCharacter::GiveDamage(float damage)
 {
 	playerHealth -= damage;
+}
+
+
+void APlayerCharacter::UpdateCollisionBounds()
+{
+	//UE_LOG(LogTemp, Warning, TEXT("collision bounds updated"))
+	FVector origin, bounds;
+
+	GetActorBounds(false, origin, bounds);
+
+	collisionXMin = origin.X - bounds.X;
+	collisionXMax = origin.X + bounds.X;
+	collisionYMin = origin.Y - bounds.Y;
+	collisionYMax = origin.Y + bounds.Y;
+	collisionZMin = origin.Z - bounds.Z;
+	collisionZMax = origin.Z + bounds.Z;
+
+}
+
+bool APlayerCharacter::CheckCollision(FVector testVector, float radius, float height)
+{
+	//UE_LOG(LogTemp, Warning, TEXT("bullet: player location %s"), *testVector.ToString())
+	//UE_LOG(LogTemp, Warning, TEXT("bullet: bullet location %s"), *GetActorLocation().ToString())
+
+	bool isColliding = false;
+
+	bool collidingX = false;
+	bool collidingY = false;
+	bool collidingZ = false;
+
+
+	if (((testVector.X + radius) >= collisionXMin) && ((testVector.X - radius) <= collisionXMax))
+	{
+		collidingX = true;
+	}
+
+	if (((testVector.Y + radius) >= collisionYMin) && ((testVector.Y - radius) <= collisionYMax))
+	{
+		collidingY = true;
+	}
+
+	if ((testVector.Z) >= collisionZMin && ((testVector.Z - height) <= collisionZMax + height))
+	{
+		collidingZ = true;
+	}
+
+	if (collidingX && collidingY && collidingZ)
+	{
+		isColliding = true;
+	}
+
+	return isColliding;
 }

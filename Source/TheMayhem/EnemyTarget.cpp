@@ -31,6 +31,8 @@ void AEnemyTarget::BeginPlay()
 {
 	Super::BeginPlay();
 
+	readyToShootTimer = shootRate;
+
 	for (TActorIterator<APlayerCharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr) // Find Player
 	{
 	/*	if (*ActorItr == nullptr)
@@ -67,6 +69,14 @@ void AEnemyTarget::Tick(float DeltaTime)
 	//SetActorRotation(currentRotation + newEnemyRot * 2.0f * DeltaTime);
 
 		SetActorRotation(newEnemyRot);
+
+		readyToShootTimer = readyToShootTimer - (DeltaTime * 0.1f);
+
+		if (readyToShootTimer <= 0)
+		{
+			readyToShootTimer = shootRate;
+			Shoot();
+		}
 }
 
 void AEnemyTarget::Shoot()

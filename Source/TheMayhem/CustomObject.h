@@ -30,14 +30,19 @@ public:
 
 	bool CheckCollision(FVector testVector, float radius, float height);
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	float collisionXMin;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	float collisionXMax;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	float collisionYMin;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	float collisionYMax;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	float collisionZMin;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+	float collisionZMax;
 
 private:
-	float collisionXMin;
-	float collisionXMax;
 
-	float collisionYMin;
-	float collisionYMax;
-
-	float collisionZMin;
-	float collisionZMax;
 };

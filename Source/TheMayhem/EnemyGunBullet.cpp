@@ -24,17 +24,20 @@ void AEnemyGunBullet::Tick(float DeltaTime)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("bullet life : %f"), lifeTime)
 		UpdateCollisionBounds();
+		player->UpdateCollisionBounds();
+		FVector playerLocation = player->GetActorLocation();
 
 
-		if (CheckCollision(player->GetActorLocation(),2.0f ,1.0f))
+		if (CheckCollision(player->GetActorLocation(),100.0f ,100.0f))
 		{
-
-			UE_LOG(LogTemp, Warning, TEXT("colliding with player enemy bullet"))
-			player->GiveDamage(bulletDamage);
 			if (this->IsPendingKill())
 			{
 				return;
 			}
+
+			UE_LOG(LogTemp, Warning, TEXT("colliding with player enemy bullet"))
+			player->GiveDamage(bulletDamage);
+
 			Destroy();
 		}
 	}

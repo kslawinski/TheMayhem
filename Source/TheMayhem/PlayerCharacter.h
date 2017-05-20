@@ -55,6 +55,19 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
 	int32 BazookaBooletCount;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+		float collisionXMin;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+		float collisionXMax;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+		float collisionYMin;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+		float collisionYMax;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+		float collisionZMin;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG")
+		float collisionZMax;
+
 	void GiveDamage(float damage);
 
 protected:
@@ -76,6 +89,10 @@ public:
 	void RotateRight(float value);
 
 	void CamElevateUp(float value);
+
+	void UpdateCollisionBounds();
+
+	bool CheckCollision(FVector testVector, float radius, float height);
 
 	ACustomObject* FindClosestActor(TArray <ACustomObject*> actors);
 

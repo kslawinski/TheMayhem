@@ -25,6 +25,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 		UStaticMeshComponent* weaponMesh;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
+		float shootRate = 0.5f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
 		APlayerCharacter* player;
 
@@ -41,5 +44,9 @@ private:
 	FVector enemyLookDirection;
 
 	void Shoot();
+
+	float readyToShootTimer;
+
+
 	
 };
