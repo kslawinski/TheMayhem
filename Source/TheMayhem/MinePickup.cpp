@@ -10,6 +10,9 @@ AMinePickup::AMinePickup()
 
 	pickupMesh->SetWorldScale3D(FVector(0.4f, 0.4f, 0.4f));
 	pickupMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -60.0f));
+
+	quantity = 40.f;
+	rotationSpeed = 50.0f;
 }
 
 

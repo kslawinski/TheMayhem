@@ -202,6 +202,14 @@ void APlayerCharacter::Tick(float DeltaTime)
 							sceneActors.Remove(closestActor);
 							closestPickup->Destroy();
 						}
+
+						if (actorName.Contains("Mine"))
+						{
+							GiveDamage(closestPickup->quantity);
+							sceneActors.Remove(closestActor);
+							RefreshUIWidget();
+							closestPickup->Destroy();
+						}
 						
 					}
 					if (closestPickup->pickupType == EpickupType::USABLE) // if the pickup I am colliding with is a consumable pickup
@@ -428,6 +436,7 @@ void APlayerCharacter::RefreshUIWidget()
 void APlayerCharacter::GiveDamage(float damage)
 {
 	playerHealth -= damage;
+	RefreshUIWidget();
 }
 
 
