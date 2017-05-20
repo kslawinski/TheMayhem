@@ -45,7 +45,7 @@ void AEnemyTarget::Tick(float DeltaTime)
 {
 	float distanceToPlayer = FVector::Distance(player->GetActorLocation(),this->GetActorLocation());
 
-	if (distanceToPlayer <= 1000.0f)
+	if (distanceToPlayer <= 100.0f)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("tICK"))
 

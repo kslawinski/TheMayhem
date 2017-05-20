@@ -78,6 +78,9 @@ void ABullet::Tick(float DeltaTime)
 	}
 //	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
 
+	FRotator bulletRotation = FRotationMatrix::MakeFromX(direction).Rotator();
+
+	SetActorRotation(bulletRotation);
 
 
 

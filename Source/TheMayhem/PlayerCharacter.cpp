@@ -411,7 +411,22 @@ void APlayerCharacter::Shoot()
 		ARocket* rocketInstance = (ARocket*)GWorld->SpawnActor(ARocket::StaticClass());
 		rocketInstance->SetActorLocation(gunMoozle->GetComponentLocation());
 		rocketInstance->SetActorRotation(GetActorRotation());
-		rocketInstance->BulletFireSetup(GetActorForwardVector(), 600.0f);
+
+		FVector shootDirection;
+		int32 screenSizeX, screenSizeY;
+		auto playerCon = GetWorld()->GetFirstPlayerController();
+
+		playerCon->GetViewportSize(screenSizeX, screenSizeY);
+
+		FVector2D aimLocation = FVector2D(screenSizeX * aimPointXLocation, screenSizeY * aimPointYLocation);
+
+		FVector camLocation;// = characterCamera->GetComponentLocation();
+
+		if (playerCon->DeprojectScreenPositionToWorld(aimLocation.X, aimLocation.Y, camLocation, shootDirection))
+		{
+			rocketInstance->BulletFireSetup(shootDirection, 600.0f);
+		}
+		
 	}
 }
 
