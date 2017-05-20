@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "CustomObject.generated.h"
 
+
 UCLASS()
 class THEMAYHEM_API ACustomObject : public AActor
 {

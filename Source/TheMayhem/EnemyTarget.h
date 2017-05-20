@@ -28,8 +28,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
 		float shootRate = 0.5f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
-		APlayerCharacter* player;
+
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

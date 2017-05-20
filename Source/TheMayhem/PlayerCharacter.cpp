@@ -59,6 +59,7 @@ void APlayerCharacter::BeginPlay()
 	UpdateCollisionBounds();
 
 	playerHealth = 100;
+	playerScore = 0;
 	GunbooletCount = 0;
 	BazookaBooletCount = 0;
 	selectedWeapon = ESelectedWeapon::NONE;
@@ -419,6 +420,7 @@ void APlayerCharacter::RefreshUIWidget()
 	if (playerUIwidget != nullptr)
 	{
 		playerUIwidget->playerHealth = playerHealth / 100;// 0.5f; // set healthbar to half 50%
+		playerUIwidget->playerScore = playerScore;
 
 		if (selectedWeapon == ESelectedWeapon::GUN)
 		{
@@ -436,6 +438,12 @@ void APlayerCharacter::RefreshUIWidget()
 void APlayerCharacter::GiveDamage(float damage)
 {
 	playerHealth -= damage;
+	RefreshUIWidget();
+}
+
+void APlayerCharacter::GiveScore(int score)
+{
+	playerScore += score;
 	RefreshUIWidget();
 }
 

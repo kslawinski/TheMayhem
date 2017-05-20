@@ -20,5 +20,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	int32 playerBoolets;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	int32 playerScore;
 	
 };

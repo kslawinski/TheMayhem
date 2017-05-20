@@ -2,13 +2,27 @@
 
 #include "TheMayhem.h"
 #include "Target.h"
+#include "PlayerCharacter.h"
 
 // Called when the game starts or when spawned
 void ATarget::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
+	for (TActorIterator<APlayerCharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr) // Find Player
+	{
+		/*	if (*ActorItr == nullptr)
+		{
+		continue;
+		}*/
+		FString actorName = *ActorItr->GetName();
+
+		if (actorName.Contains("Player"))
+		{
+			player = *ActorItr;
+			break;
+		}
+	}
 }
 
 ATarget::ATarget()
@@ -31,6 +45,7 @@ void ATarget::GiveDamage(float damage)
 
 	if (targetHealth <= damage)
 	{
+		player->GiveScore(10);
 		Destroy();
 		UE_LOG(LogTemp, Warning, TEXT("Destroying target"))
 	}

@@ -8,6 +8,8 @@
 /**
  * 
  */
+class APlayerCharacter;
+
 UCLASS()
 class THEMAYHEM_API ATarget : public ACustomObject
 {
@@ -18,6 +20,9 @@ public:
 
 	void GiveDamage(float damage);
 	float GetTargetHealth();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DEBUG")
+		APlayerCharacter* player;
 
 protected:
 	// Called when the game starts or when spawned

@@ -28,6 +28,7 @@ private:
 
 
 	float playerHealth;
+	int32  playerScore;
 
 	FVector currentVelocity;
 	FVector direction;
@@ -69,6 +70,8 @@ public:
 		float collisionZMax;
 
 	void GiveDamage(float damage);
+
+	void GiveScore(int score);
 
 protected:
 	// Called when the game starts or when spawned

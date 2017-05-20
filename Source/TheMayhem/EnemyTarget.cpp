@@ -5,6 +5,7 @@
 #include "PlayerCharacter.h"
 
 
+
 AEnemyTarget::AEnemyTarget()
 {
 	weaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
@@ -33,20 +34,7 @@ void AEnemyTarget::BeginPlay()
 
 	readyToShootTimer = shootRate;
 
-	for (TActorIterator<APlayerCharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr) // Find Player
-	{
-	/*	if (*ActorItr == nullptr)
-		{
-			continue;
-		}*/
-		FString actorName = *ActorItr->GetName();
 
-		if (actorName.Contains("Player"))
-		{
-			player = *ActorItr;
-			break;
-		}
-	}
 	UE_LOG(LogTemp, Warning, TEXT("Start Called"))
 
 		Shoot(); // test shoot
