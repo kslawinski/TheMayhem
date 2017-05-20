@@ -58,6 +58,8 @@ void APlayerCharacter::BeginPlay()
 
 	UpdateCollisionBounds();
 
+	gameOver = false;
+
 	playerHealth = 100;
 	playerScore = 0;
 	GunbooletCount = 0;
@@ -436,6 +438,7 @@ void APlayerCharacter::RefreshUIWidget()
 	{
 		playerUIwidget->playerHealth = playerHealth / 100;// 0.5f; // set healthbar to half 50%
 		playerUIwidget->playerScore = playerScore;
+		playerUIwidget->gameOver = gameOver;
 
 		if (selectedWeapon == ESelectedWeapon::GUN)
 		{
@@ -454,6 +457,13 @@ void APlayerCharacter::GiveDamage(float damage)
 {
 	playerHealth -= damage;
 	RefreshUIWidget();
+
+	if (playerHealth <= 0)
+	{
+		gameOver = true;
+		RefreshUIWidget();
+		this->Destroy();
+	}
 }
 
 void APlayerCharacter::GiveScore(int score)

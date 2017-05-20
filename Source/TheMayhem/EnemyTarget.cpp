@@ -43,31 +43,34 @@ void AEnemyTarget::BeginPlay()
 // Called every frame
 void AEnemyTarget::Tick(float DeltaTime)
 {
-	float distanceToPlayer = FVector::Distance(player->GetActorLocation(),this->GetActorLocation());
-
-	if (distanceToPlayer <= 1000.0f)
+	if (player)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("tICK"))
+		float distanceToPlayer = FVector::Distance(player->GetActorLocation(), this->GetActorLocation());
 
-		FRotator currentRotation = GetActorRotation();
-
-		enemyLookDirection = (player->GetActorLocation() - this->GetActorLocation()).GetSafeNormal();
-		enemyLookDirection.Z = 0.0f;
-
-		//UE_LOG(LogTemp, Warning, TEXT("Look Direction is %s"), *enemyLookDirection.ToString())
-
-		FRotator newEnemyRot = FRotationMatrix::MakeFromX(enemyLookDirection).Rotator();
-
-		//SetActorRotation(currentRotation + newEnemyRot * 2.0f * DeltaTime);
-
-		SetActorRotation(newEnemyRot);
-
-		readyToShootTimer = readyToShootTimer - (DeltaTime * 0.1f);
-
-		if (readyToShootTimer <= 0)
+		if (distanceToPlayer <= 1000.0f)
 		{
-			readyToShootTimer = shootRate;
-			Shoot();
+			//UE_LOG(LogTemp, Warning, TEXT("tICK"))
+
+			FRotator currentRotation = GetActorRotation();
+
+			enemyLookDirection = (player->GetActorLocation() - this->GetActorLocation()).GetSafeNormal();
+			enemyLookDirection.Z = 0.0f;
+
+			//UE_LOG(LogTemp, Warning, TEXT("Look Direction is %s"), *enemyLookDirection.ToString())
+
+			FRotator newEnemyRot = FRotationMatrix::MakeFromX(enemyLookDirection).Rotator();
+
+			//SetActorRotation(currentRotation + newEnemyRot * 2.0f * DeltaTime);
+
+			SetActorRotation(newEnemyRot);
+
+			readyToShootTimer = readyToShootTimer - (DeltaTime * 0.1f);
+
+			if (readyToShootTimer <= 0)
+			{
+				readyToShootTimer = shootRate;
+				Shoot();
+			}
 		}
 	}
 }

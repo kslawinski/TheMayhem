@@ -22,5 +22,8 @@ public:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	int32 playerScore;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	bool gameOver;
 	
 };

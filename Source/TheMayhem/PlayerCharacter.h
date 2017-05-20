@@ -25,7 +25,7 @@ class THEMAYHEM_API APlayerCharacter : public APawn
 	GENERATED_BODY()
 
 private:
-
+	bool gameOver;
 
 	float playerHealth;
 	int32  playerScore;
