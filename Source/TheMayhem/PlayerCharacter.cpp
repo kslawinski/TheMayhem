@@ -4,10 +4,6 @@
 #include "TheMayhem.h"
 #include "PlayerCharacter.h"
 
-
-
-
-
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
@@ -84,24 +80,19 @@ void APlayerCharacter::BeginPlay()
 			continue;
 		}
 
-		ACustomObject* pickup = *ActorItr;
-		sceneActors.Add(pickup);
-		if (pickup)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Found %s"), *pickup->GetName()) // debug message
-		}
+		ACustomObject* customObject = *ActorItr;
+		sceneActors.Add(customObject); // add found custom object to list 
 
 	}
-
 
 	if (PlayerUIClass != nullptr)
 	{
 		
-		playerUIwidget = CreateWidget<UPlayerUI>(GetWorld(), PlayerUIClass);
+		playerUIwidget = CreateWidget<UPlayerUI>(GetWorld(), PlayerUIClass); // create an instance of the UI widget
 
 		if (playerUIwidget != nullptr)
 		{
-			playerUIwidget->AddToViewport();
+			playerUIwidget->AddToViewport(); // add widget to the screen
 		}
 	}
 
@@ -113,9 +104,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	updateCounter += (DeltaTime);
-
-	//UE_LOG(LogTemp, Warning, TEXT("Direction is: %s"), *direction.ToString());
+	updateCounter += (DeltaTime); // store delta time for future use outside of tick
 
 	currentDeltaTime = DeltaTime;
 
@@ -133,10 +122,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 	if (!currentVelocity.IsZero())
 	{
-
 			NewLocation = GetActorLocation() + (currentVelocity * DeltaTime);
-
-
 			SetActorLocation(NewLocation);
 	}
 	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
@@ -155,12 +141,12 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 		if (closestActor)
 		{
-			if (closestActor->IsPendingKill())
+			if (closestActor->IsPendingKill()) // safety check
 			{
 				return;
 			}
 
-			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 80.0f,60.0f);
+			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 70.0f,60.0f);
 
 			if (isColliding)
 			{
@@ -178,8 +164,6 @@ void APlayerCharacter::Tick(float DeltaTime)
 					return;
 				}
 
-				//UE_LOG(LogTemp, Warning, TEXT("character is colliding?: %i"), isColliding)
-				//APickup* closestPickup = Cast<APickup>(closestActor);
 
 				if (closestActor == nullptr)
 				{
@@ -191,12 +175,9 @@ void APlayerCharacter::Tick(float DeltaTime)
 					if (actorName.Contains("Pickup"))
 					{
 						APickup* closestPickup = Cast<APickup>(closestActor);
-						//TODO calapse this into PickItem function
+
 						if (closestPickup->pickupType == EpickupType::CONSUMABLE) // if the pickup I am colliding with is a consumable pickup
 						{
-							//UE_LOG(LogTemp, Warning, TEXT("Colliding with consumable pickup"))
-
-
 
 							if (actorName.Contains("AmmoPickup"))
 							{
@@ -323,7 +304,7 @@ void APlayerCharacter::CamElevateUp(float value)
 ACustomObject* APlayerCharacter::FindClosestActor(TArray<ACustomObject*> actors)
 {
 	ACustomObject* closestActor = nullptr;
-	float closestDistanceSqr = (float)1e10;	// Very big number!
+	float closestDistanceSqr = (float)1e10;
 
 	for (int32 i = 0; i < actors.Num(); i++)
 	{

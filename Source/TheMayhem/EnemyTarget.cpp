@@ -15,14 +15,18 @@ AEnemyTarget::AEnemyTarget()
 	weaponMesh->SetWorldScale3D(FVector(0.2f, 0.2f, 0.2f));
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> GunMeshObj(TEXT("StaticMesh'/Game/Geometry/gun.gun'")); // load a mesh from a file
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> BazookaMeshObj(TEXT("StaticMesh'/Game/Geometry/bazooka.bazooka'")); // load a mesh from a file
+	const ConstructorHelpers::FObjectFinder<UStaticMesh> EnemyTargetMeshObj(TEXT("StaticMesh'/Engine/EngineMeshes/Cube.Cube'")); // load a mesh from a file
 	gunMesh = GunMeshObj.Object;
 	bazookaMesh = BazookaMeshObj.Object;
+
+	targetMesh->SetStaticMesh(EnemyTargetMeshObj.Object);
 
 	gunMoozle = CreateDefaultSubobject<USceneComponent>(TEXT("Gun Moozle point"));
 	gunMoozle->SetupAttachment(weaponMesh);
 
 	weaponMesh->SetStaticMesh(gunMesh); // for now
 
+	targetMesh->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 	targetMesh->SetWorldScale3D(FVector(0.2f, 0.2f, 0.6f));
 	collisionMesh->SetWorldScale3D(FVector(0.3f, 0.3f, 0.6f));
 }

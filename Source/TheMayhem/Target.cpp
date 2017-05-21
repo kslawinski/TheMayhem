@@ -30,11 +30,18 @@ ATarget::ATarget()
 	targetMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Target Mesh"), false);
 	targetMesh->SetupAttachment(RootComponent);
 
-	const ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Engine/EngineMeshes/Cube.Cube'")); // load a mesh from a file
+	const ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Game/Geometry/AimCircle.AimCircle'")); // load a mesh from a file
 	targetMesh->SetStaticMesh(MeshObj.Object);
 
-	targetMesh->SetWorldScale3D(FVector(0.1f, 0.5f, 0.5f));
-	collisionMesh->SetWorldScale3D(FVector(0.2f, 0.6f, 0.6f));
+	const ConstructorHelpers::FObjectFinder<UStaticMesh> TargetMeshObj(TEXT("StaticMesh'/Engine/EngineMeshes/Cylinder.Cylinder'")); // load a mesh from a file
+
+
+	targetMesh->SetRelativeRotation(FRotator(-90.0f, 0.0f, 0.0f));
+	targetMesh->SetWorldScale3D(FVector(0.3f, 0.3f, 0.3f));
+
+	collisionMesh->SetStaticMesh(TargetMeshObj.Object);
+	collisionMesh->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
+	collisionMesh->SetWorldScale3D(FVector(2.2f, 1.2f, 2.2f));
 
 	targetHealth = 100.0f;
 }
