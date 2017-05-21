@@ -133,6 +133,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 	if (!currentVelocity.IsZero())
 	{
+
 			NewLocation = GetActorLocation() + (currentVelocity * DeltaTime);
 
 
@@ -146,7 +147,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 	characterCamera->SetRelativeRotation(CamCurrentElevation + NewCamElevation * camElevationSpeed * DeltaTime);
 
 	// Simple collision detection
-	if (sceneActors.Num() > 0 && updateCounter >= 0.4f)
+	if (sceneActors.Num() > 0 && updateCounter >= 0.2f)
 	{
 		updateCounter = 0;
 
@@ -159,7 +160,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 				return;
 			}
 
-			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 30.0f,60.0f);
+			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 80.0f,60.0f);
 
 			if (isColliding)
 			{
@@ -169,7 +170,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 				{
 					float lastSpeed = speed;
 					//UE_LOG(LogTemp, Warning, TEXT("colliding with wall"))
-					speed -= lastSpeed * 2.0f;
+					speed -= lastSpeed * 300.0f * currentDeltaTime;
 					FVector lastLocation = GetActorLocation();
 					currentVelocity = (FVector(0.0f, 0.0f, 0.0f));
 					SetActorLocation(lastLocation);
@@ -275,10 +276,10 @@ void APlayerCharacter::MoveForward(float value)
 	if (value == 1.0f || value == -1.0f)
 	{
 		direction = GetActorForwardVector() * value;
-		speed += 1.0f;
-
-		FMath::Clamp(speed, -40.0f, 40.0f);
+		FMath::Clamp(speed += (currentDeltaTime * 200.0f), -0.002f, 0.002f);
 	}
+
+
 }
 
 void APlayerCharacter::MoveRight(float value)
@@ -286,9 +287,8 @@ void APlayerCharacter::MoveRight(float value)
 	if (value == 1.0f || value == -1.0f)
 	{
 		direction = GetActorRightVector() * value;
-		speed += 1.0f;
-
-		FMath::Clamp(speed, -40.0f, 40.0f);
+		
+		FMath::Clamp(speed += currentDeltaTime * 100.0f, -0.002f, 0.002f);
 	}
 }
 
@@ -296,7 +296,7 @@ void APlayerCharacter::RotateRight(float value)
 {
 	if (value == 1.0f || value == -1.0f)
 	{
-		rotationSpeed = value * 100.0f;
+		rotationSpeed = value * currentDeltaTime * 5000.0f;
 	}
 	else
 	{
@@ -308,7 +308,8 @@ void APlayerCharacter::CamElevateUp(float value)
 {
 	if (value == 1.0f || value == -1.0f)
 	{
-		camElevationSpeed = value * 50.0f;
+		camElevationSpeed = value * currentDeltaTime * 3000.0f;
+		weaponMesh->SetRelativeRotation(FRotator(0.0f, -90.0f, -characterCamera->GetComponentRotation().Pitch)); // adjust weapon mesh rotation to match aiming
 	}
 	else
 	{

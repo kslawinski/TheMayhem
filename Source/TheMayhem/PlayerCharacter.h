@@ -48,6 +48,7 @@ private:
 	float aimPointYLocation = 0.5f;
 	void RefreshUIWidget();
 
+
 	float updateCounter;
 	
 public:

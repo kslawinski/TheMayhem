@@ -72,10 +72,6 @@ void ABullet::Tick(float DeltaTime)
 
 	FVector NewLocation = GetActorLocation();
 
-
-	//FRotator CurrentRotation = GetActorRotation();
-	//FRotator NewRotation = FRotator(0.0f, 1.0f, 0.0f);
-
 	if (!currentVelocity.IsZero())
 	{
 		NewLocation = GetActorLocation() + (currentVelocity * DeltaTime);
@@ -83,7 +79,6 @@ void ABullet::Tick(float DeltaTime)
 
 		SetActorLocation(NewLocation);
 	}
-//	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
 
 	FRotator bulletRotation = FRotationMatrix::MakeFromX(direction).Rotator();
 
