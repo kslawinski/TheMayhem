@@ -296,7 +296,7 @@ void APlayerCharacter::RotateRight(float value)
 {
 	if (value == 1.0f || value == -1.0f)
 	{
-		rotationSpeed = value * 200.0f;
+		rotationSpeed = value * 100.0f;
 	}
 	else
 	{
@@ -308,7 +308,7 @@ void APlayerCharacter::CamElevateUp(float value)
 {
 	if (value == 1.0f || value == -1.0f)
 	{
-		camElevationSpeed = value * 100.0f;
+		camElevationSpeed = value * 50.0f;
 	}
 	else
 	{
@@ -335,6 +335,7 @@ ACustomObject* APlayerCharacter::FindClosestActor(TArray<ACustomObject*> actors)
 		if (distanceToTarget.SizeSquared() < closestDistanceSqr)
 		{
 			closestDistanceSqr = distanceToTarget.SizeSquared();
+			if (actors[i] == nullptr){continue;}
 			closestActor = actors[i];
 		}
 	}

@@ -32,7 +32,8 @@ void AEnemyTarget::BeginPlay()
 {
 	Super::BeginPlay();
 
-	readyToShootTimer = shootRate;
+	readyToShootTimer = 0;
+	shootRate = 2.0f;
 
 
 	UE_LOG(LogTemp, Warning, TEXT("Start Called"))
@@ -45,12 +46,14 @@ void AEnemyTarget::Tick(float DeltaTime)
 {
 	updateCounter += (DeltaTime);
 
-	if (player && updateCounter >= 0.8f)
+	readyToShootTimer += (DeltaTime);
+
+	if (player && updateCounter >= 0.4f)
 	{
 		updateCounter = 0;
 		float distanceToPlayer = FVector::Distance(player->GetActorLocation(), this->GetActorLocation());
 
-		if (distanceToPlayer <= 1000.0f)
+		if (distanceToPlayer <= 1700.0f)
 		{
 			//UE_LOG(LogTemp, Warning, TEXT("tICK"))
 
@@ -67,11 +70,11 @@ void AEnemyTarget::Tick(float DeltaTime)
 
 			SetActorRotation(newEnemyRot);
 
-			readyToShootTimer = readyToShootTimer - (DeltaTime * 0.1f);
 
-			if (readyToShootTimer <= 0)
+
+			if (readyToShootTimer >= shootRate)
 			{
-				readyToShootTimer = shootRate;
+				readyToShootTimer = 0;
 				Shoot();
 			}
 		}
