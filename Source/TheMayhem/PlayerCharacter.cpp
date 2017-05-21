@@ -59,6 +59,7 @@ void APlayerCharacter::BeginPlay()
 	UpdateCollisionBounds();
 
 	gameOver = false;
+	gameWin = false;
 
 	playerHealth = 100;
 	playerScore = 0;
@@ -234,6 +235,15 @@ void APlayerCharacter::Tick(float DeltaTime)
 							RefreshUIWidget();
 							sceneActors.Remove(closestActor);
 							closestPickup->Destroy();
+						}
+
+						if (actorName.Contains("GoldenPointer"))
+						{
+							gameWin = true;
+							RefreshUIWidget();
+							sceneActors.Remove(closestActor);
+							closestPickup->Destroy();
+							Destroy();
 						}
 					}
 				}
@@ -439,6 +449,7 @@ void APlayerCharacter::RefreshUIWidget()
 		playerUIwidget->playerHealth = playerHealth / 100;// 0.5f; // set healthbar to half 50%
 		playerUIwidget->playerScore = playerScore;
 		playerUIwidget->gameOver = gameOver;
+		playerUIwidget->gameWin = gameWin;
 
 		if (selectedWeapon == ESelectedWeapon::GUN)
 		{

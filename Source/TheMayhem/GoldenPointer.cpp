@@ -10,6 +10,8 @@ AGoldenPointer::AGoldenPointer()
 
 	pickupMesh->SetWorldScale3D(FVector(2.0f, 2.0f, 2.0f));
 	//pickupMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -50.0f));
+
+	pickupType = EpickupType::USABLE;
 }
 
 

@@ -26,6 +26,7 @@ class THEMAYHEM_API APlayerCharacter : public APawn
 
 private:
 	bool gameOver;
+	bool gameWin;
 
 	float playerHealth;
 	int32  playerScore;
