@@ -16,7 +16,7 @@ ACustomObject::ACustomObject()
 	collisionMesh->SetupAttachment(RootComponent);
 
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Engine/EngineMeshes/Cube.Cube'")); // load a mesh from a file
-	const ConstructorHelpers::FObjectFinder<UMaterialInstance> MaterialObj(TEXT("MaterialInstanceConstant'/Game/collisionBoxMat.collisionBoxMat'"));  // load material from file
+	const ConstructorHelpers::FObjectFinder<UMaterialInstance> MaterialObj(TEXT("MaterialInstanceConstant'/Game/Materials/collisionBoxMat.collisionBoxMat'"));  // load material from file
 
 	collisionMesh->SetStaticMesh(MeshObj.Object);
 	collisionMesh->SetMaterial(0, MaterialObj.Object); // set material to mesh

@@ -179,76 +179,79 @@ void APlayerCharacter::Tick(float DeltaTime)
 				}
 
 				//UE_LOG(LogTemp, Warning, TEXT("character is colliding?: %i"), isColliding)
-				APickup* closestPickup = Cast<APickup>(closestActor);
+				//APickup* closestPickup = Cast<APickup>(closestActor);
 
-				if (closestPickup == nullptr)
+				if (closestActor == nullptr)
 				{
 					return;
 				}
 
-				if (closestPickup != nullptr) // if the closest customObject is a Pickup
+				if (closestActor != nullptr) // if the closest customObject is a Pickup
 				{
-					
-					//TODO calapse this into PickItem function
-					if (closestPickup->pickupType == EpickupType::CONSUMABLE) // if the pickup I am colliding with is a consumable pickup
+					if (actorName.Contains("Pickup"))
 					{
-						//UE_LOG(LogTemp, Warning, TEXT("Colliding with consumable pickup"))
-
-
-
-						if (actorName.Contains("AmmoPickup"))
+						APickup* closestPickup = Cast<APickup>(closestActor);
+						//TODO calapse this into PickItem function
+						if (closestPickup->pickupType == EpickupType::CONSUMABLE) // if the pickup I am colliding with is a consumable pickup
 						{
-							GunbooletCount += closestPickup->quantity * 15; // 15 bullets in gun magazine (pack)
-							RefreshUIWidget();
-							sceneActors.Remove(closestActor);
-							closestPickup->Destroy();
+							//UE_LOG(LogTemp, Warning, TEXT("Colliding with consumable pickup"))
+
+
+
+							if (actorName.Contains("AmmoPickup"))
+							{
+								GunbooletCount += closestPickup->quantity * 15; // 15 bullets in gun magazine (pack)
+								RefreshUIWidget();
+								sceneActors.Remove(closestPickup);
+								closestPickup->Destroy();
+							}
+
+							if (actorName.Contains("HealthPickup"))
+							{
+								playerHealth += closestPickup->quantity * 30; // one healthpack gives 30 HP
+								RefreshUIWidget();
+								sceneActors.Remove(closestPickup);
+								closestPickup->Destroy();
+							}
+
+							if (actorName.Contains("Mine"))
+							{
+								GiveDamage(closestPickup->quantity);
+								sceneActors.Remove(closestPickup);
+								RefreshUIWidget();
+								closestPickup->Destroy();
+							}
+
 						}
+						if (closestPickup->pickupType == EpickupType::USABLE) // if the pickup I am colliding with is a consumable pickup
+						{
+							if (actorName.Contains("GunPickup"))
+							{
+								bGunEquiped = true;
+								GunbooletCount += closestPickup->quantity * 15; // gun with one magazine
+								ChangeWeapon();
+								RefreshUIWidget();
+								sceneActors.Remove(closestPickup);
+								closestPickup->Destroy();
+							}
+							if (actorName.Contains("BazookaPickup"))
+							{
+								bBazookaEquiped = true;
+								BazookaBooletCount += closestPickup->quantity * 5; // bazooka with 5 rockets
+								ChangeWeapon();
+								RefreshUIWidget();
+								sceneActors.Remove(closestPickup);
+								closestPickup->Destroy();
+							}
 
-						if (actorName.Contains("HealthPickup"))
-						{
-							playerHealth += closestPickup->quantity * 30; // one healthpack gives 30 HP
-							RefreshUIWidget();
-							sceneActors.Remove(closestActor);
-							closestPickup->Destroy();
-						}
-
-						if (actorName.Contains("Mine"))
-						{
-							GiveDamage(closestPickup->quantity);
-							sceneActors.Remove(closestActor);
-							RefreshUIWidget();
-							closestPickup->Destroy();
-						}
-						
-					}
-					if (closestPickup->pickupType == EpickupType::USABLE) // if the pickup I am colliding with is a consumable pickup
-					{
-						if (actorName.Contains("GunPickup"))
-						{
-							bGunEquiped = true;
-							GunbooletCount += closestPickup->quantity * 15; // gun with one magazine
-							ChangeWeapon();
-							RefreshUIWidget();
-							sceneActors.Remove(closestActor);
-							closestPickup->Destroy();
-						}
-						if (actorName.Contains("BazookaPickup"))
-						{
-							bBazookaEquiped = true;
-							BazookaBooletCount += closestPickup->quantity * 5; // bazooka with 5 rockets
-							ChangeWeapon();
-							RefreshUIWidget();
-							sceneActors.Remove(closestActor);
-							closestPickup->Destroy();
-						}
-
-						if (actorName.Contains("GoldenPointer"))
-						{
-							gameWin = true;
-							RefreshUIWidget();
-							sceneActors.Remove(closestActor);
-							closestPickup->Destroy();
-							Destroy();
+							if (actorName.Contains("GoldenPointer"))
+							{
+								gameWin = true;
+								RefreshUIWidget();
+								sceneActors.Remove(closestPickup);
+								closestPickup->Destroy();
+								Destroy();
+							}
 						}
 					}
 				}
