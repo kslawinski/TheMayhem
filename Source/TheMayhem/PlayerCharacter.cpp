@@ -113,6 +113,8 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	updateCounter += (DeltaTime);
+
 	//UE_LOG(LogTemp, Warning, TEXT("Direction is: %s"), *direction.ToString());
 
 	currentDeltaTime = DeltaTime;
@@ -144,8 +146,10 @@ void APlayerCharacter::Tick(float DeltaTime)
 	characterCamera->SetRelativeRotation(CamCurrentElevation + NewCamElevation * camElevationSpeed * DeltaTime);
 
 	// Simple collision detection
-	if (sceneActors.Num() > 0)
+	if (sceneActors.Num() > 0 && updateCounter >= 0.4f)
 	{
+		updateCounter = 0;
+
 		closestActor = FindClosestActor(sceneActors);
 
 		if (closestActor)

@@ -52,7 +52,7 @@ private:
 	float speed;
 	float lifeTime;
 
-
+	float updateCounter = 0;
 
 	float currentDeltaTime;
 	FRotator rotation;

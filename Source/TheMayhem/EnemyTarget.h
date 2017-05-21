@@ -46,6 +46,6 @@ private:
 
 	float readyToShootTimer;
 
-
+	float updateCounter = 0;
 	
 };

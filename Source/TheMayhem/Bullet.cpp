@@ -29,6 +29,8 @@ void ABullet::BeginPlay()
 			continue;
 		}
 
+
+
 		FString actorName = ActorItr->GetName();
 
 		if (*ActorItr == this || actorName.Contains("Bullet") || actorName.Contains("Rocket"))
@@ -41,6 +43,8 @@ void ABullet::BeginPlay()
 	}
 
 
+
+
 }
 
 // Called every frame
@@ -48,6 +52,9 @@ void ABullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	currentDeltaTime = DeltaTime;
+
+	updateCounter += (DeltaTime );
+	//UE_LOG(LogTemp, Warning, TEXT("Counter is: %f"),updateCounter);
 
 	currentVelocity = direction * speed;
 
@@ -85,68 +92,73 @@ void ABullet::Tick(float DeltaTime)
 
 
 	// Simple collision detection
-	if (sceneActors.Num() > 0)
+	if (sceneActors.Num() > 0 )
 	{
-		closestActor = FindClosestActor(sceneActors);
-
-		if (closestActor == nullptr) { return; }
-
-		if (closestActor)
+		if (updateCounter >= 0.1f)
 		{
-			bool isColliding = closestActor->CheckCollision(GetActorLocation(), 1.0f, 2.0f);
+			updateCounter = 0.0f;
 
-			//UE_LOG(LogTemp, Warning, TEXT("colliding with target"))
-			FString actorName = closestActor->GetName();
+			closestActor = FindClosestActor(sceneActors);
 
-			if (actorName.Contains("Moving"))
+			if (closestActor == nullptr) { return; }
+
+			if (closestActor)
 			{
-				closestActor->UpdateCollisionBounds(); // if the target is a moving target uptate its bounds every frame to check collision
-			}
+				bool isColliding = closestActor->CheckCollision(GetActorLocation(), 1.0f, 2.0f);
 
-			if (isColliding)
-			{
+				//UE_LOG(LogTemp, Warning, TEXT("colliding with target"))
+				FString actorName = closestActor->GetName();
 
-
-				if (actorName.Contains("Wall"))
+				if (actorName.Contains("Moving"))
 				{
-					//UE_LOG(LogTemp, Warning, TEXT("bullet colliding with wall"))
+					closestActor->UpdateCollisionBounds(); // if the target is a moving target uptate its bounds every frame to check collision
+				}
+
+				if (isColliding)
+				{
+
+
+					if (actorName.Contains("Wall"))
+					{
+						//UE_LOG(LogTemp, Warning, TEXT("bullet colliding with wall"))
 
 						if (IsPendingKill())
 						{
 							return;
 						}
-					if(closestActor == nullptr)
-					{
-						return;
-					}
-
-					//sceneActors.Remove(closestActor);
-					Destroy();
-				}
-
-				if (actorName.Contains("Target"))
-				{
-					ATarget* closestTarget = Cast<ATarget>(closestActor);
-
-					if (closestTarget == nullptr)
-					{
-						return;
-					}
-
-					if (closestTarget)
-					{
-						if (closestTarget->IsPendingKill())
+						if (closestActor == nullptr)
 						{
 							return;
 						}
 
-						if(closestTarget == nullptr){return;}
-						closestTarget->GiveDamage(bulletDamage);
-						if (closestTarget->GetTargetHealth() <= 0)
-						{
-							sceneActors.Remove(closestTarget);
-						}
+						//sceneActors.Remove(closestActor);
 						Destroy();
+					}
+
+					if (actorName.Contains("Target"))
+					{
+						ATarget* closestTarget = Cast<ATarget>(closestActor);
+
+						if (closestTarget == nullptr)
+						{
+							return;
+						}
+
+						if (closestTarget)
+						{
+							if (closestTarget->IsPendingKill())
+							{
+								return;
+							}
+
+							if (closestTarget == nullptr) { return; }
+							closestTarget->GiveDamage(bulletDamage);
+							if (closestTarget->GetTargetHealth() <= 0)
+							{
+								sceneActors.Remove(closestTarget);
+							}
+							Destroy();
+						}
 					}
 				}
 			}
@@ -175,10 +187,12 @@ ACustomObject* ABullet::FindClosestActor(TArray<ACustomObject*> actors)
 
 		if (actors[i]->IsPendingKill())
 		{
+			//actors.Remove(actors[i]);
 			break;
 		}
 
-		
+		if (actors[i])
+		{
 			FVector distanceToTarget = (actors[i]->GetActorLocation() - this->GetActorLocation());
 
 			if (distanceToTarget.SizeSquared() < closestDistanceSqr)
@@ -188,6 +202,7 @@ ACustomObject* ABullet::FindClosestActor(TArray<ACustomObject*> actors)
 
 				closestActor = actors[i];
 			}
+		}
 	}
 
 	return closestActor;

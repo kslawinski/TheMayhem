@@ -43,8 +43,11 @@ void AEnemyTarget::BeginPlay()
 // Called every frame
 void AEnemyTarget::Tick(float DeltaTime)
 {
-	if (player)
+	updateCounter += (DeltaTime);
+
+	if (player && updateCounter >= 0.8f)
 	{
+		updateCounter = 0;
 		float distanceToPlayer = FVector::Distance(player->GetActorLocation(), this->GetActorLocation());
 
 		if (distanceToPlayer <= 1000.0f)
