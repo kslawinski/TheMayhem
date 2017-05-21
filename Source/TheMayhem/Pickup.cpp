@@ -12,7 +12,7 @@ APickup::APickup()
 	pickupMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Pickup Mesh Component"), false);
 	pickupMesh->SetupAttachment(RootComponent);
 
-
+	quantity = 1;
 }
 
 // Called when the game starts or when spawned

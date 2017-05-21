@@ -168,16 +168,17 @@ ACustomObject* ABullet::FindClosestActor(TArray<ACustomObject*> actors)
 
 	for (int32 i = 0; i < actors.Num(); i++)
 	{
-		if (actors[i]->IsPendingKill())
-		{
-			break;
-		}
-
 		if (actors[i] == nullptr)
 		{
 			break;
 		}
 
+		if (actors[i]->IsPendingKill())
+		{
+			break;
+		}
+
+		
 			FVector distanceToTarget = (actors[i]->GetActorLocation() - this->GetActorLocation());
 
 			if (distanceToTarget.SizeSquared() < closestDistanceSqr)

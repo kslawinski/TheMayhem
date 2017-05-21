@@ -292,7 +292,7 @@ void APlayerCharacter::RotateRight(float value)
 {
 	if (value == 1.0f || value == -1.0f)
 	{
-		rotationSpeed = value * 100.0f;
+		rotationSpeed = value * 200.0f;
 	}
 	else
 	{
