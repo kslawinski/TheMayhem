@@ -3,7 +3,7 @@
 #include "TheMayhem.h"
 #include "Bullet.h"
 
-
+/////////////////////////////CUSTOM CODE//////////////////////////////////
 ABullet::ABullet()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -33,18 +33,16 @@ void ABullet::BeginPlay()
 
 		FString actorName = ActorItr->GetName();
 
-		if (*ActorItr == this || actorName.Contains("Bullet") || actorName.Contains("Rocket"))
+		if (*ActorItr == this || actorName.Contains("Bullet") || actorName.Contains("Rocket")) // skip addding other bullets to the list
 		{
 			continue;
 		}
 
 		ACustomObject* customObject = *ActorItr;
-		sceneActors.Add(customObject);
+		sceneActors.Add(customObject); // add all custom objects to the list
 	}
 
-
-
-
+////////////////////////////////////////////////////////////////////////////////////
 }
 
 // Called every frame
@@ -66,13 +64,15 @@ void ABullet::Tick(float DeltaTime)
 		Destroy();
 	}
 
+	/////////////////this code is adapted form the lectures///////////////////
+
 	// Apply friction
 	float scale = 1.0f - (DeltaTime * frictionFactor);
 	speed *= scale;
 
 	FVector NewLocation = GetActorLocation();
 
-	if (!currentVelocity.IsZero())
+	if (!currentVelocity.IsZero()) 
 	{
 		NewLocation = GetActorLocation() + (currentVelocity * DeltaTime);
 
@@ -80,11 +80,13 @@ void ABullet::Tick(float DeltaTime)
 		SetActorLocation(NewLocation);
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////CUSTOM CODE//////////////////////////////////
+
 	FRotator bulletRotation = FRotationMatrix::MakeFromX(direction).Rotator();
 
 	SetActorRotation(bulletRotation);
-
-
 
 	// Simple collision detection
 	if (sceneActors.Num() > 0 )
@@ -132,7 +134,7 @@ void ABullet::Tick(float DeltaTime)
 
 					if (actorName.Contains("Target"))
 					{
-						ATarget* closestTarget = Cast<ATarget>(closestActor);
+						ATarget* closestTarget = Cast<ATarget>(closestActor); // convert it to ATarget
 
 						if (closestTarget == nullptr)
 						{
@@ -147,12 +149,12 @@ void ABullet::Tick(float DeltaTime)
 							}
 
 							if (closestTarget == nullptr) { return; }
-							closestTarget->GiveDamage(bulletDamage);
-							if (closestTarget->GetTargetHealth() <= 0)
-							{
-								sceneActors.Remove(closestTarget);
-							}
-							Destroy();
+							closestTarget->GiveDamage(bulletDamage); // damage target 
+							//if (closestTarget->GetTargetHealth() <= 0)
+							//{
+								//sceneActors.Remove(closestTarget);
+							//}
+							Destroy(); // destroy self
 						}
 					}
 				}
@@ -202,3 +204,4 @@ ACustomObject* ABullet::FindClosestActor(TArray<ACustomObject*> actors)
 
 	return closestActor;
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////

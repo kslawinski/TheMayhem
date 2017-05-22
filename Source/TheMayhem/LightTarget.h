@@ -6,7 +6,7 @@
 #include "LightTarget.generated.h"
 
 /**
- * 
+ * custom, light tarrget class
  */
 UCLASS()
 class THEMAYHEM_API ALightTarget : public ATarget
@@ -17,7 +17,5 @@ class THEMAYHEM_API ALightTarget : public ATarget
 	
 private:
 	UPointLightComponent* lightComponent;
-
-	//UDestructibleMesh* destructionMesh;
 	
 };

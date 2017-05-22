@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "Pickup.generated.h"
 
+/////////////////////////////CUSTOM CODE//////////////////////////////////
 UENUM(BlueprintType)
 enum class EpickupType : uint8
 {
@@ -29,9 +30,6 @@ public:
 
 protected:
 
-
-
-
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -44,7 +42,6 @@ public:
 
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Setup")
 		float rotationSpeed = 100.0f;
-private:
 
-	
+/////////////////////////////////////////////////////////////////////////
 };

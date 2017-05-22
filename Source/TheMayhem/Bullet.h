@@ -8,7 +8,7 @@
 #include "Bullet.generated.h"
 
 /**
- * 
+ *  custom bullet class parent class for all of the bullets
  */
 
 

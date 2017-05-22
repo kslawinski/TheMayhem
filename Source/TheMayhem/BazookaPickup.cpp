@@ -3,6 +3,7 @@
 #include "TheMayhem.h"
 #include "BazookaPickup.h"
 
+/////////////////////////////CUSTOM CODE//////////////////////////////////
 ABazookaPickup::ABazookaPickup()
 {
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Game/Geometry/bazooka.bazooka'")); // load a mesh from a file
@@ -13,3 +14,4 @@ ABazookaPickup::ABazookaPickup()
 }
 
 
+///////////////////////////////////////////////////////////////////

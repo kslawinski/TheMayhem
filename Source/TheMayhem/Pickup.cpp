@@ -3,7 +3,7 @@
 #include "TheMayhem.h"
 #include "Pickup.h"
 
-
+/////////////////////////////CUSTOM CODE//////////////////////////////////
 // Sets default values
 APickup::APickup()
 {
@@ -31,3 +31,4 @@ void APickup::Tick(float DeltaTime)
 	pickupMesh->SetRelativeRotation(pickupMesh->RelativeRotation + rotation * rotationSpeed * DeltaTime);
 }
 
+/////////////////////////////////////////////////////////////////////////////////

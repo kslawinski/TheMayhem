@@ -6,7 +6,7 @@
 #include "PlayerUI.generated.h"
 
 /**
- * 
+ * Class allowing for C++ and blueprnt widget communication
  */
 UCLASS()
 class THEMAYHEM_API UPlayerUI : public UUserWidget

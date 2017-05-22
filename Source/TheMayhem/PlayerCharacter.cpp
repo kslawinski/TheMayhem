@@ -4,6 +4,8 @@
 #include "TheMayhem.h"
 #include "PlayerCharacter.h"
 
+/////////////////////////////CUSTOM CODE//////////////////////////////////
+
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
@@ -109,7 +111,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 	currentDeltaTime = DeltaTime;
 
 	currentVelocity = direction * speed;
-
+	/////////////////////////////LECTURE CODE//////////////////////////////////
 	// Apply friction
 	float scale = 1.0f - (DeltaTime * 0.9f);
 	speed *= scale;
@@ -117,14 +119,18 @@ void APlayerCharacter::Tick(float DeltaTime)
 	FVector NewLocation = GetActorLocation();
 
 	
-	FRotator CurrentRotation = GetActorRotation();
-	FRotator NewRotation = FRotator(0.0f, 1.0f, 0.0f);
+	FRotator CurrentRotation = GetActorRotation(); /////////////custom code
+	FRotator NewRotation = FRotator(0.0f, 1.0f, 0.0f); //////////////custom code
 
 	if (!currentVelocity.IsZero())
 	{
 			NewLocation = GetActorLocation() + (currentVelocity * DeltaTime);
 			SetActorLocation(NewLocation);
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	/////////////////////////////CUSTOM CODE////////////////////////////////////////////
 	SetActorRotation(CurrentRotation + NewRotation * rotationSpeed * DeltaTime);
 
 	FRotator CamCurrentElevation = FRotator(characterCamera->GetComponentRotation().Pitch,0.0f,0.0f);
@@ -259,20 +265,20 @@ void APlayerCharacter::MoveForward(float value)
 {
 	if (value == 1.0f || value == -1.0f)
 	{
-		direction = GetActorForwardVector() * value;
-		FMath::Clamp(speed += (currentDeltaTime * 200.0f), -0.002f, 0.002f);
+		direction = GetActorForwardVector();
+
+		speed += FMath::Clamp(value, -1.0f, 1.0f) * 100.0f * currentDeltaTime;
+		speed = FMath::Clamp(speed, -200.0f, 500.0f);
 	}
-
-
 }
 
 void APlayerCharacter::MoveRight(float value)
 {
 	if (value == 1.0f || value == -1.0f)
 	{
-		direction = GetActorRightVector() * value;
-		
-		FMath::Clamp(speed += currentDeltaTime * 100.0f, -0.002f, 0.002f);
+		direction = GetActorRightVector();
+		speed += FMath::Clamp(value, -1.0f, 1.0f) * 100.0f * currentDeltaTime;
+		speed = FMath::Clamp(speed, -100.0f, 100.0f);
 	}
 }
 
@@ -280,7 +286,7 @@ void APlayerCharacter::RotateRight(float value)
 {
 	if (value == 1.0f || value == -1.0f)
 	{
-		rotationSpeed = value * currentDeltaTime * 5000.0f;
+		rotationSpeed = value * 60.0f;
 	}
 	else
 	{
@@ -292,7 +298,7 @@ void APlayerCharacter::CamElevateUp(float value)
 {
 	if (value == 1.0f || value == -1.0f)
 	{
-		camElevationSpeed = value * currentDeltaTime * 3000.0f;
+		camElevationSpeed = value * 60.0f;
 		weaponMesh->SetRelativeRotation(FRotator(0.0f, -90.0f, -characterCamera->GetComponentRotation().Pitch)); // adjust weapon mesh rotation to match aiming
 	}
 	else
@@ -472,7 +478,7 @@ void APlayerCharacter::GiveScore(int score)
 	playerScore += score;
 	RefreshUIWidget();
 }
-
+/////////////////////////////CODE ADAPTED FROM LECTURES//////////////////////////////////
 
 void APlayerCharacter::UpdateCollisionBounds()
 {
@@ -492,8 +498,7 @@ void APlayerCharacter::UpdateCollisionBounds()
 
 bool APlayerCharacter::CheckCollision(FVector testVector, float radius, float height)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("bullet: player location %s"), *testVector.ToString())
-	//UE_LOG(LogTemp, Warning, TEXT("bullet: bullet location %s"), *GetActorLocation().ToString())
+	/////////////////////////////CUSTOM CODE modified check collision function //////////////////////////////////
 
 	bool isColliding = false;
 
@@ -524,3 +529,5 @@ bool APlayerCharacter::CheckCollision(FVector testVector, float radius, float he
 
 	return isColliding;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////

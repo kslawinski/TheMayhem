@@ -6,7 +6,7 @@
 #include "GoldenPointer.generated.h"
 
 /**
- * 
+ * golden pointer pickup, level finished when picked up
  */
 UCLASS()
 class THEMAYHEM_API AGoldenPointer : public APickup

@@ -4,6 +4,7 @@
 #include "Target.h"
 #include "PlayerCharacter.h"
 
+/////////////////////////////CUSTOM CODE//////////////////////////////////
 // Called when the game starts or when spawned
 void ATarget::BeginPlay()
 {
@@ -63,3 +64,4 @@ float ATarget::GetTargetHealth()
 	return targetHealth;
 }
 
+///////////////////////////////////////////////////////////////////////////////////

@@ -63,8 +63,8 @@ void ACustomObject::UpdateCollisionBounds()
 
 bool ACustomObject::CheckCollision(FVector testVector, float radius, float height)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("bullet: player location %s"), *testVector.ToString())
-		//UE_LOG(LogTemp, Warning, TEXT("bullet: bullet location %s"), *GetActorLocation().ToString())
+
+	/////////////////////////////CUSTOM CODE modified collision check fucntion//////////////////////////////////
 
 	bool isColliding = false;
 

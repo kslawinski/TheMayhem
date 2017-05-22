@@ -3,6 +3,7 @@
 #include "TheMayhem.h"
 #include "AmmoPickup.h"
 
+/////////////////////////////CUSTOM CODE//////////////////////////////////
 AAmmoPickup::AAmmoPickup()
 {
 	const ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Game/Geometry/ammo.ammo'")); // load a mesh from a file
@@ -12,4 +13,4 @@ AAmmoPickup::AAmmoPickup()
 	pickupMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -30.0f));
 }
 
-
+/////////////////////////////////////////////////////////////////////////////

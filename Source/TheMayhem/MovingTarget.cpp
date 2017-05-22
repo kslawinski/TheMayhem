@@ -9,6 +9,7 @@ void AMovingTarget::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	/////////////////////////////CUSTOM CODE//////////////////////////////////
 	if (movementDistance >= maxMovementDistance)
 	{
 		movingRight = false;
@@ -35,6 +36,7 @@ void AMovingTarget::Tick(float DeltaTime)
 
 	currentVelocity = direction * speed;
 
+	/////////////////////////////LECTURE CODE//////////////////////////////////
 	// Apply friction
 	float scale = 1.0f - (DeltaTime * frictionFactor);
 	speed *= scale;
@@ -49,5 +51,6 @@ void AMovingTarget::Tick(float DeltaTime)
 
 		SetActorLocation(NewLocation);
 	}
+	////////////////////////////////////////////////////////////////////////////////
 }
 

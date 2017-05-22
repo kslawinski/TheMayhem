@@ -7,7 +7,7 @@
 #include "EnemyTarget.generated.h"
 
 /**
- * 
+ *  custom, Enemy class shooting character
  */
 
 class APlayerCharacter; // forward declaration of player
